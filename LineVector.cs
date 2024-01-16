@@ -8,9 +8,16 @@ public struct LineVector
     public Vector3 startPoint;
     public Vector3 endPoint;
     public bool isCurved;
+    public bool openLeft;
+    public bool openRight;
+    public bool openUp;
+    public bool openDown;
+    public bool isHorizontal;
+    public bool isVertical;
+    public bool isDiagonal;
+
     public Vector3 controlPoint;
     public Vector3 controlPoint2;
-    public LineVector[] capA;
     public static LineVector[][] alphabet;
     int i;
 
@@ -26,7 +33,7 @@ public struct LineVector
         alphabet[1] = GetLowA();
         alphabet[2] = GetLowC();
         alphabet[3] = GetLowB();
-        /*//alphabet[4] = GetCapC();
+        //alphabet[4] = GetCapC();
         alphabet[5] = GetLowC();
         //alphabet[6] = GetCapD();
         alphabet[7] = GetLowD();
@@ -63,17 +70,17 @@ public struct LineVector
         //alphabet[38] = GetCapT();
         alphabet[39] = GetLowT();
         //alphabet[40] = GetCapU();
-        //alphabet[41] = GetLowU();
+        alphabet[41] = GetLowU();
         //alphabet[42] = GetCapV();
-        //alphabet[43] = GetLowV();
+        alphabet[43] = GetLowV();
         //alphabet[44] = GetCapQ();
-        //alphabet[45] = GetLowQ();
+        alphabet[45] = GetLowQ();
         //alphabet[46] = GetCapX();
-        //alphabet[47] = GetLowX();
+        alphabet[47] = GetLowX();
         //alphabet[48] = GetCapY();
-        //alphabet[49] = GetLowY();
+        alphabet[49] = GetLowY();
         //alphabet[50] = GetCapZ();
-        //alphabet[51] = GetLowZ();*/
+        alphabet[51] = GetLowZ();
         
         return alphabet;
     }
@@ -81,16 +88,17 @@ public struct LineVector
     {
         LineVector[] capA = new LineVector[3];
 
-        Vector3 startPoint0 = new Vector3(0.007f, -0.2f, 0.2321f); 
-        Vector3 endPoint0 = new Vector3(-0.165f, -0.2f, -0.242f);
-        Vector3 startPoint1 = new Vector3(0.007f, -0.2f, 0.2321f);
-        Vector3 endPoint1 = new Vector3(0.19f, -0.2f, -0.25f);
-        Vector3 startPoint2 = new Vector3(-0.11f, -0.2f, -0.09f);
-        Vector3 endPoint2 = new Vector3(0.14f, -0.2f, -0.09f);
+        Vector3 startPoint0 = new Vector3(0.007f, 0.1f, 0.2321f); 
+        Vector3 endPoint0 = new Vector3(-0.165f, 0.1f, -0.242f);
+        Vector3 startPoint1 = new Vector3(0.007f, 0.1f, 0.2321f);
+        Vector3 endPoint1 = new Vector3(0.19f, 0.1f, -0.25f);
+        Vector3 startPoint2 = new Vector3(-0.11f, 0.1f, -0.09f);
+        Vector3 endPoint2 = new Vector3(0.14f, 0.1f, -0.09f);
 
         capA[0].SetLineVector(startPoint0, endPoint0);
         capA[1].SetLineVector(startPoint1, endPoint1);
         capA[2].SetLineVector(startPoint2, endPoint2);
+        
 
         return capA;
     }
@@ -108,6 +116,11 @@ public struct LineVector
 
         lowA[0].SetLineVector(startPoint0, endPoint0);
         lowA[1].SetLineVector(startPoint1, endPoint1, controlPoint1, controlPoint11);
+        lowA[0].isCurved = false;
+        lowA[0].isVertical = true;
+        lowA[0].isHorizontal = false;
+        lowA[1].openRight = true;
+        lowA[1].isCurved = true;
 
         return lowA;
     }
@@ -116,15 +129,18 @@ public struct LineVector
     {
         LineVector[] lowB = new LineVector[2];
         
-        Vector3 startPoint0 = new Vector3(-0.1f, -0.2f, 0.23f);
-        Vector3 endPoint0 = new Vector3(-0.1f, -0.2f, -0.24f);
-        Vector3 endPoint1 = new Vector3(-0.1f, -0.2f, -0.04f);
-        Vector3 startPoint1 = new Vector3(-0.1f, -0.2f, -0.18f);
-        Vector3 controlPoint11 = new Vector3(0.24f, -0.2f, 0.2f);
-        Vector3 controlPoint1 = new Vector3(0.18f, -0.2f, -0.48f);
+        Vector3 startPoint0 = new Vector3(-0.1f, 0.1f, 0.23f);
+        Vector3 endPoint0 = new Vector3(-0.1f, 0.1f, -0.24f);
+        Vector3 endPoint1 = new Vector3(-0.1f, 0.1f, -0.04f);
+        Vector3 startPoint1 = new Vector3(-0.1f, 0.1f, -0.24f);
+        Vector3 controlPoint11 = new Vector3(0.24f, 0.1f, 0.1f);
+        Vector3 controlPoint1 = new Vector3(0.18f, 0.1f, -0.38f);
 
         lowB[0].SetLineVector(startPoint0, endPoint0);
         lowB[1].SetLineVector(startPoint1, endPoint1, controlPoint1, controlPoint11);
+        lowB[0].isVertical = true;
+        lowB[1].isCurved = true;
+        lowB[1].openLeft = true;
 
         return lowB;
 
@@ -134,12 +150,14 @@ public struct LineVector
     {
         LineVector[] lowC = new LineVector[1];
 
-        Vector3 startPoint0 = new Vector3(0.124f, -0.2f, 0.12f);
-        Vector3 endPoint0 = new Vector3(0.124f, -0.2f, -0.125f);
-        Vector3 controlPoint0 = new Vector3(-0.23f, -0.2f, 0.35f);
-        Vector3 controlPoint01 = new Vector3(-0.23f, -0.2f, -0.35f);
+        Vector3 startPoint0 = new Vector3(0.124f, 0.1f, 0.12f);
+        Vector3 endPoint0 = new Vector3(0.124f, 0.1f, -0.125f);
+        Vector3 controlPoint0 = new Vector3(-0.23f, 0.1f, 0.35f);
+        Vector3 controlPoint01 = new Vector3(-0.23f, 0.1f, -0.35f);
 
         lowC[0].SetLineVector(startPoint0, endPoint0, controlPoint0, controlPoint01);
+        lowC[0].isCurved = true;
+        lowC[0].openRight = true;
 
         return lowC;
     }
@@ -148,15 +166,18 @@ public struct LineVector
     {
         LineVector[] lowD = new LineVector[2];
 
-        Vector3 endPoint1 = new Vector3(0.111f, -0.2f, -0.046f);
-        Vector3 startPoint1 = new Vector3(0.111f, -0.2f, -0.183f);
-        Vector3 controlPoint01 = new Vector3(-0.21f, -0.2f, 0.2f);
-        Vector3 controlPoint0 = new Vector3(-0.18f, -0.2f, -0.48f);
-        Vector3 startPoint0 = new Vector3(0.111f, -0.2f, 0.225f);
-        Vector3 endPoint0 = new Vector3(0.111f, -0.2f, -0.24f);
+        Vector3 endPoint1 = new Vector3(0.111f, 0.1f, -0.046f);
+        Vector3 startPoint1 = new Vector3(0.111f, 0.1f, -0.24f);
+        Vector3 controlPoint01 = new Vector3(-0.21f, 0.1f, 0.1f);
+        Vector3 controlPoint0 = new Vector3(-0.18f, 0.1f, -0.38f);
+        Vector3 startPoint0 = new Vector3(0.111f, 0.1f, 0.225f);
+        Vector3 endPoint0 = new Vector3(0.111f, 0.1f, -0.24f);
 
         lowD[0].SetLineVector(startPoint0, endPoint0, controlPoint0, controlPoint01);
         lowD[1].SetLineVector(startPoint1, endPoint1);
+        lowD[0].isVertical = true;
+        lowD[1].isCurved = true;
+        lowD[1].openRight = true;
 
         return lowD;
     }
@@ -165,15 +186,18 @@ public struct LineVector
     {
         LineVector[] lowE = new LineVector[2];
 
-        Vector3 startPoint0 = new Vector3(-0.13f, -0.2f, 0f);
-        Vector3 endPoint0 = new Vector3(0.161f, -0.2f, 0f);
-        Vector3 startPoint1 = new Vector3(0.161f, -0.2f, 0f);
-        Vector3 endPoint1 = new Vector3(0.14f, -0.2f, -0.142f);
-        Vector3 controlPoint1 = new Vector3(-0.05f, -0.2f, 0.56f);
-        Vector3 controlPoint11 = new Vector3(-0.4f, -0.2f, -0.33f);
+        Vector3 startPoint0 = new Vector3(-0.13f, 0.1f, 0f);
+        Vector3 endPoint0 = new Vector3(0.161f, 0.1f, 0f);
+        Vector3 startPoint1 = new Vector3(0.161f, 0.1f, 0f);
+        Vector3 endPoint1 = new Vector3(0.14f, 0.1f, -0.142f);
+        Vector3 controlPoint1 = new Vector3(-0.05f, 0.1f, 0.56f);
+        Vector3 controlPoint11 = new Vector3(-0.4f, 0.1f, -0.33f);
 
         lowE[0].SetLineVector(startPoint0, endPoint0);
         lowE[1].SetLineVector(startPoint1, endPoint1, controlPoint1, controlPoint11);
+        lowE[0].isHorizontal = true;
+        lowE[1].isCurved = true;
+        lowE[1].openRight = true;
 
         return lowE;
     }
@@ -182,18 +206,22 @@ public struct LineVector
     {
         LineVector[] lowF = new LineVector[3];
 
-        Vector3 endPoint1 = new Vector3(0.115f, -0.2f, 0.178f);
-        Vector3 startPoint0 = new Vector3(-0.041f, -0.2f, -0.244f);
-        Vector3 controlPoint1 = new Vector3(-0.1f, -0.2f, 0.4f);
-        Vector3 controlPoint11 = new Vector3(0.01f, -0.2f, 0.1f);
-        Vector3 endPoint2 = new Vector3(-0.121f, -0.2f, 0f);
-        Vector3 startPoint2 = new Vector3(0.06f, -0.2f, 0f);
-        Vector3 endPoint0 = new Vector3(-0.041f,-0.2f, 0.2f);
-        Vector3 startPoint1 = new Vector3(-0.041f,-0.2f, 0.2f);
+        Vector3 endPoint1 = new Vector3(0.115f, 0.1f, 0.178f);
+        Vector3 startPoint0 = new Vector3(-0.041f, 0.1f, -0.244f);
+        Vector3 controlPoint1 = new Vector3(0f, 0.1f, 0.4f);
+        Vector3 controlPoint11 = new Vector3(0.08f, 0.1f, 0.25f);
+        Vector3 endPoint2 = new Vector3(-0.121f, 0.1f, 0f);
+        Vector3 startPoint2 = new Vector3(0.06f, 0.1f, 0f);
+        Vector3 endPoint0 = new Vector3(-0.041f,0.1f, 0.2f);
+        Vector3 startPoint1 = new Vector3(-0.041f,0.1f, 0.2f);
 
         lowF[0].SetLineVector(startPoint0, endPoint0);
         lowF[1].SetLineVector(startPoint1, endPoint1, controlPoint1, controlPoint11);
         lowF[2].SetLineVector(startPoint2, endPoint2);
+        lowF[0].isVertical = true;
+        lowF[1].isCurved = true;
+        lowF[1].openDown = true;
+        lowF[2].isHorizontal = true;
 
         return lowF;
     }
@@ -202,20 +230,25 @@ public struct LineVector
     {
         LineVector[] lowG = new LineVector[3];
 
-        Vector3 startPoint2 = new Vector3(0.13f, -0.2f, 0.178f);//
-        Vector3 endPoint2 = new Vector3(0.13f, -0.2f, -0.02f);//
-        Vector3 controlPoint2 = new Vector3(-0.23f, -0.2f, 0.35f);//
-        Vector3 controlPoint21 = new Vector3(-0.23f, -0.2f, -0.2f);//
-        Vector3 endPoint1 = new Vector3(0.13f, -0.2f, 0.174f);//
-        Vector3 startPoint0 = new Vector3(-0.12f, -0.2f, -0.179f);//
-        Vector3 controlPoint0 = new Vector3(0.18f, -0.2f, -0.3f);
-        Vector3 controlPoint01 = new Vector3(0f, -0.2f, -0.3f);
-        Vector3 startPoint1 = new Vector3(0.13f, -0.2f, -0.131f);
-        Vector3 endPoint0 = new Vector3(0.13f, -0.2f, -0.131f);
+        Vector3 startPoint2 = new Vector3(0.13f, 0.1f, 0.178f);
+        Vector3 endPoint2 = new Vector3(0.13f, 0.1f, -0.02f);
+        Vector3 controlPoint2 = new Vector3(-0.23f, 0.1f, 0.35f);
+        Vector3 controlPoint21 = new Vector3(-0.23f, 0.1f, -0.2f);
+        Vector3 endPoint1 = new Vector3(0.13f, 0.1f, 0.174f);
+        Vector3 startPoint0 = new Vector3(-0.12f, 0.1f, -0.179f);
+        Vector3 controlPoint0 = new Vector3(-0.1f, 0.1f, -0.3f);
+        Vector3 controlPoint01 = new Vector3(0.1f, 0.1f, -0.3f);
+        Vector3 startPoint1 = new Vector3(0.13f, 0.1f, -0.131f);
+        Vector3 endPoint0 = new Vector3(0.13f, 0.1f, -0.131f);
 
         lowG[0].SetLineVector(startPoint0, endPoint0, controlPoint0, controlPoint01);
         lowG[1].SetLineVector(startPoint1, endPoint1);
         lowG[2].SetLineVector(startPoint2, endPoint2, controlPoint2, controlPoint21);
+        lowG[0].isCurved = true;
+        lowG[0].openUp = true;
+        lowG[1].isVertical = true;
+        lowG[2].isCurved = true;
+        lowG[2].openRight = true;
 
         return lowG;
     }
@@ -224,15 +257,18 @@ public struct LineVector
     {
         LineVector[] lowH = new LineVector[2];
 
-        Vector3 startPoint0 = new Vector3(-0.085f, -0.2f, 0.235f);
-        Vector3 endPoint0 = new Vector3(-0.085f, -0.2f, -0.255f);
-        Vector3 startPoint1 = new Vector3(-0.085f, -0.2f, -0.255f);
-        Vector3 endPoint1 = new Vector3(0.12f, -0.2f, -0.255f);
-        Vector3 controlPoint1 = new Vector3(0.05f, -0.2f, 0.1f);
-        Vector3 controlPoint11 = new Vector3(0.17f, -0.2f, 0f);
+        Vector3 startPoint0 = new Vector3(-0.085f, 0.1f, 0.235f);
+        Vector3 endPoint0 = new Vector3(-0.085f, 0.1f, -0.255f);
+        Vector3 startPoint1 = new Vector3(-0.085f, 0.1f, -0.255f);
+        Vector3 endPoint1 = new Vector3(0.12f, 0.1f, -0.255f);
+        Vector3 controlPoint1 = new Vector3(-0.05f, 0.1f, 0.1f);
+        Vector3 controlPoint11 = new Vector3(0.17f, 0.1f, 0f);
 
         lowH[0].SetLineVector(startPoint0, endPoint0);
         lowH[1].SetLineVector(startPoint1, endPoint1, controlPoint1, controlPoint11);
+        lowH[0].isVertical = true;
+        lowH[1].isCurved = true;
+        lowH[1].openDown = true;
 
         return lowH;
     }
@@ -241,13 +277,15 @@ public struct LineVector
     {
         LineVector[] lowI = new LineVector[2];
 
-        Vector3 startPoint1 = new Vector3(0f, -0.2f, 0.043f);
-        Vector3 endPoint1 = new Vector3(0f, -0.2f, -0.23f);
-        Vector3 startPoint0 = new Vector3(0f, -0.2f, 0.23f);
-        Vector3 endPoint0 = new Vector3(0f, -0.2f, 0.14f);
+        Vector3 startPoint1 = new Vector3(0f, 0.1f, 0.043f);
+        Vector3 endPoint1 = new Vector3(0f, 0.1f, -0.23f);
+        Vector3 startPoint0 = new Vector3(0f, 0.1f, 0.23f);
+        Vector3 endPoint0 = new Vector3(0f, 0.1f, 0.14f);
 
         lowI[0].SetLineVector(startPoint0, endPoint0);
         lowI[1].SetLineVector(startPoint1, endPoint1);
+        lowI[0].isVertical = true;
+        lowI[1].isVertical = true;
 
         return lowI;
     }
@@ -256,18 +294,22 @@ public struct LineVector
     {
         LineVector[] lowJ = new LineVector[3];
 
-        Vector3 startPoint1 = new Vector3(0.026f, -0.2f, 0.108f);
-        Vector3 endPoint2 = new Vector3(-0.1f, -0.2f, -0.25f);
-        Vector3 controlPoint2 = new Vector3(0f, -0.2f, -0.26f);
-        Vector3 controlPoint21 = new Vector3(.07f, -0.2f, -0.3f);
-        Vector3 startPoint0 = new Vector3(0.026f, -0.2f, 0.27f);
-        Vector3 endPoint0 = new Vector3(0.026f, -0.2f, 0.19f);
-        Vector3 endPoint1 = new Vector3(0.026f, -0.2f, -1.9f);
-        Vector3 startPoint2 = new Vector3(0.026f, -0.2f, -1.9f);
+        Vector3 startPoint1 = new Vector3(0.026f, 0.1f, 0.108f);
+        Vector3 endPoint2 = new Vector3(-0.1f, 0.1f, -0.25f);
+        Vector3 controlPoint2 = new Vector3(0.05f, 0.1f, -0.4f);
+        Vector3 controlPoint21 = new Vector3(-0.13f, 0.1f, -0.25f);
+        Vector3 startPoint0 = new Vector3(0.026f, 0.1f, 0.27f);
+        Vector3 endPoint0 = new Vector3(0.026f, 0.1f, 0.19f);
+        Vector3 endPoint1 = new Vector3(0.026f, 0.1f, -.19f);
+        Vector3 startPoint2 = new Vector3(0.026f, 0.1f, -.19f);
 
         lowJ[0].SetLineVector(startPoint0, endPoint0);
         lowJ[1].SetLineVector(startPoint1, endPoint1);
         lowJ[2].SetLineVector(startPoint2, endPoint2, controlPoint2, controlPoint21);
+        lowJ[0].isVertical = true;
+        lowJ[1].isVertical = true;
+        lowJ[2].isCurved = true;
+        lowJ[2].openUp = true;
 
         return lowJ;
     }
@@ -276,22 +318,32 @@ public struct LineVector
     {
         LineVector[] lowK = new LineVector[5];
 
-        Vector3 startPoint0 = new Vector3(-0.074f, -0.2f, 0.25f);//
-        Vector3 endPoint0 = new Vector3(-0.074f, -0.2f, -0.261f);//
-        Vector3 startPoint1 = new Vector3(-0.074f, -0.2f, -0.261f);//
-        Vector3 endPoint1 = new Vector3(0.082f, -0.2f, 0.002f);//
-        Vector3 startPoint2 = new Vector3(0.082f, -0.2f, 0.002f);
-        Vector3 endPoint2 = new Vector3(-0.074f, -0.2f, -0.14f);
-        Vector3 startPoint3 = new Vector3(-0.074f, -0.2f, -0.14f);
-        Vector3 endPoint3 = new Vector3(0.082f, -0.2f, 0.002f);
-        Vector3 startPoint4 = new Vector3(0.082f, -0.2f, 0.002f);
-        Vector3 endPoint4 = new Vector3(0.107f, -0.2f, -0.261f);
+        Vector3 startPoint0 = new Vector3(-0.074f, 0.1f, 0.25f);//
+        Vector3 endPoint0 = new Vector3(-0.074f, 0.1f, -0.3f);//
+
+        Vector3 startPoint1 = new Vector3(-0.074f, 0.1f, -0.3f);//
+        Vector3 endPoint1 = new Vector3(-0.074f, 0.1f, -0.16f);//
+
+        Vector3 startPoint2 = new Vector3(-0.074f, 0.1f, -0.16f);
+        Vector3 endPoint2 = new Vector3(0.09f, 0.1f, -0.035f);
+
+        Vector3 startPoint3 = new Vector3(0.09f, 0.1f, -0.035f);
+        Vector3 endPoint3 = new Vector3(-0.074f, 0.1f, -0.16f);
+
+        Vector3 startPoint4 = new Vector3(-0.074f, 0.1f, -0.16f);
+        Vector3 endPoint4 = new Vector3(0.11f, 0.1f, -0.3f);
 
         lowK[0].SetLineVector(startPoint0, endPoint0);
         lowK[1].SetLineVector(startPoint1, endPoint1);
         lowK[2].SetLineVector(startPoint2, endPoint2);
         lowK[3].SetLineVector(startPoint3, endPoint3);
         lowK[4].SetLineVector(startPoint4, endPoint4);
+        lowK[0].isVertical = true;
+        lowK[1].isVertical = true;
+        lowK[2].isDiagonal = true;
+        lowK[3].isDiagonal = true;
+        lowK[4].isDiagonal = true;
+
 
         return lowK;
     }
@@ -300,10 +352,11 @@ public struct LineVector
     {
         LineVector[] lowL = new LineVector[1];
 
-        Vector3 startPoint0 = new Vector3(0f, -0.2f, 0.25f);
-        Vector3 endPoint0 = new Vector3(0f, -0.2f, -0.26f);
+        Vector3 startPoint0 = new Vector3(0f, 0.1f, 0.25f);
+        Vector3 endPoint0 = new Vector3(0f, 0.1f, -0.26f);
 
         lowL[0].SetLineVector(startPoint0, endPoint0);
+        lowL[0].isVertical = true;
 
         return lowL;
     }
@@ -312,20 +365,27 @@ public struct LineVector
     {
         LineVector[] lowM = new LineVector[3];
 
-        Vector3 startPoint0 = new Vector3(-0.205f, -0.2f, 0.137f);
-        Vector3 endPoint0 = new Vector3(-0.205f, -0.2f, -0.167f);
-        Vector3 startPoint1 = new Vector3(-0.205f, -0.2f, -0.167f);
-        Vector3 endPoint1 = new Vector3(0f, -0.2f, -0.167f);
-        Vector3 controlPoint1 = new Vector3(-0.03f, -0.2f, 0.2f);
-        Vector3 controlPoint11 = new Vector3(0f, -0.2f, 0.2f);
-        Vector3 startPoint2 = new Vector3(0f, -0.2f, -0.167f);
-        Vector3 endPoint2 = new Vector3(0.21f, -0.2f, -0.167f);
-        Vector3 controlPoint2 = new Vector3(0.2f, -0.2f, 0.2f);
-        Vector3 controlPoint21 = new Vector3(0.25f, -0.2f, 0.2f);
+        Vector3 startPoint0 = new Vector3(-0.205f, 0.1f, 0.137f);
+        Vector3 endPoint0 = new Vector3(-0.205f, 0.1f, -0.167f);
+
+        Vector3 startPoint1 = new Vector3(-0.205f, 0.1f, -0.167f);
+        Vector3 endPoint1 = new Vector3(0f, 0.1f, -0.167f);
+        Vector3 controlPoint1 = new Vector3(-0.2f, 0.1f, 0.2f);
+        Vector3 controlPoint11 = new Vector3(0f, 0.1f, 0.2f);
+
+        Vector3 startPoint2 = new Vector3(0f, 0.1f, -0.167f);
+        Vector3 endPoint2 = new Vector3(0.21f, 0.1f, -0.167f);
+        Vector3 controlPoint2 = new Vector3(0f, 0.1f, 0.2f);
+        Vector3 controlPoint21 = new Vector3(0.25f, 0.1f, 0.2f);
 
         lowM[0].SetLineVector(startPoint0, endPoint0);
         lowM[1].SetLineVector(startPoint1, endPoint1, controlPoint1, controlPoint11);
         lowM[2].SetLineVector(startPoint2, endPoint2, controlPoint2, controlPoint21);
+        lowM[0].isVertical = true;
+        lowM[1].isCurved = true;
+        lowM[1].openDown = true;
+        lowM[2].isCurved = true;
+        lowM[2].openDown = true;
 
         return lowM;
     }
@@ -334,16 +394,20 @@ public struct LineVector
     {
         LineVector[] lowN = new LineVector[2];
 
-        Vector3 startPoint0 = new Vector3(-0.126f, -0.2f, 0.145f);
-        Vector3 endPoint0 = new Vector3(-0.121f, -0.2f, -0.175f);
-        Vector3 startPoint1 = new Vector3(-0.121f, -0.2f, -0.175f);
-        Vector3 endPoint1 = new Vector3(0.133f, -0.2f, -0.175f);
-        Vector3 controlPoint1 = new Vector3(0f, -0.2f, 0.226f);
-        Vector3 controlPoint11 = new Vector3(0.2f, -0.2f, 0.2f);
+        Vector3 startPoint0 = new Vector3(-0.126f, 0.1f, 0.145f);
+        Vector3 endPoint0 = new Vector3(-0.121f, 0.1f, -0.175f);
+
+        Vector3 startPoint1 = new Vector3(-0.121f, 0.1f, -0.175f);
+        Vector3 endPoint1 = new Vector3(0.133f, 0.1f, -0.175f);
+        Vector3 controlPoint1 = new Vector3(-0.1f, 0.1f, 0.226f);
+        Vector3 controlPoint11 = new Vector3(0.2f, 0.1f, 0.2f);
         
 
         lowN[0].SetLineVector(startPoint0, endPoint0);
         lowN[1].SetLineVector(startPoint1, endPoint1, controlPoint1, controlPoint11);
+        lowN[0].isVertical = true;
+        lowN[1].isCurved = true;
+        lowN[1].openDown = true;
 
         return lowN;
     }
@@ -352,17 +416,21 @@ public struct LineVector
     {
         LineVector[] lowO = new LineVector[2];
 
-        Vector3 startPoint0 = new Vector3(0f, -0.2f, 0.15f);
-        Vector3 endPoint0 = new Vector3(0f, -0.2f, -0.15f);
-        Vector3 controlPoint0 = new Vector3(-0.2f, -0.2f, 0.15f);
-        Vector3 controlPoint01 = new Vector3(-0.2f, -0.2f, -0.15f);
-        Vector3 startPoint1 = new Vector3(0f, -0.2f, -0.15f);
-        Vector3 endPoint1 = new Vector3(0f, -0.2f, 0.15f);
-        Vector3 controlPoint1 = new Vector3(0.2f, -0.2f, -0.15f);
-        Vector3 controlPoint11 = new Vector3(0.2f, -0.2f, 0.15f);
+        Vector3 startPoint0 = new Vector3(0f, 0.1f, 0.15f);
+        Vector3 endPoint0 = new Vector3(0f, 0.1f, -0.15f);
+        Vector3 controlPoint0 = new Vector3(-0.2f, 0.1f, 0.15f);
+        Vector3 controlPoint01 = new Vector3(-0.2f, 0.1f, -0.15f);
+        Vector3 startPoint1 = new Vector3(0f, 0.1f, -0.15f);
+        Vector3 endPoint1 = new Vector3(0f, 0.1f, 0.15f);
+        Vector3 controlPoint1 = new Vector3(0.2f, 0.1f, -0.15f);
+        Vector3 controlPoint11 = new Vector3(0.2f, 0.1f, 0.15f);
 
         lowO[0].SetLineVector(startPoint0, endPoint0, controlPoint0, controlPoint01);
         lowO[1].SetLineVector(startPoint1, endPoint1, controlPoint1, controlPoint11);
+        lowO[0].isCurved = true;
+        lowO[0].openRight = true;
+        lowO[1].isCurved = true;
+        lowO[1].openLeft = true;
 
         return lowO;
     }
@@ -371,16 +439,19 @@ public struct LineVector
     {
         LineVector[] lowP = new LineVector[2];
 
-        Vector3 endPoint0 = new Vector3(-0.114f, -0.2f, 0.178f);
-        Vector3 startPoint0 = new Vector3(-0.114f, -0.2f, -0.222f);
-        Vector3 startPoint1 = new Vector3(-0.114f, -0.2f, 0.159f);
-        Vector3 endPoint1 = new Vector3(-0.114f, -0.2f, 0f);
-        Vector3 controlPoint1 = new Vector3(0.22f, -0.2f, 0.34f);
-        Vector3 controlPoint11 = new Vector3(0.18f, -0.2f, -0.29f);
+        Vector3 endPoint0 = new Vector3(-0.114f, 0.1f, 0.178f);
+        Vector3 startPoint0 = new Vector3(-0.114f, 0.1f, -0.222f);
+        Vector3 startPoint1 = new Vector3(-0.114f, 0.1f, 0.159f);
+        Vector3 endPoint1 = new Vector3(-0.114f, 0.1f, 0f);
+        Vector3 controlPoint1 = new Vector3(0.22f, 0.1f, 0.34f);
+        Vector3 controlPoint11 = new Vector3(0.18f, 0.1f, -0.29f);
         
 
         lowP[0].SetLineVector(startPoint0, endPoint0);
         lowP[1].SetLineVector(startPoint1, endPoint1, controlPoint1, controlPoint11);
+        lowP[0].isVertical = true;
+        lowP[1].isCurved = true;
+        lowP[1].openLeft = true;
 
         return lowP;
     }
@@ -389,20 +460,25 @@ public struct LineVector
     {
         LineVector[] lowQ = new LineVector[3];
 
-        Vector3 startPoint0 = new Vector3(0.177f, -0.2f, -0.177f);//
-        Vector3 endPoint0 = new Vector3(0.039f, -0.2f, -0.064f);
-        Vector3 startPoint1 = new Vector3(0.039f, -0.2f, -0.064f);
-        Vector3 endPoint1 = new Vector3(0.039f, -0.2f, 0.181f);
-        Vector3 startPoint2 = new Vector3(0.039f, -0.2f, 0.181f);
-        Vector3 endPoint2 = new Vector3(0.039f, -0.2f, -0.02f);
-        Vector3 controlPoint2 = new Vector3(-0.27f, -0.2f, 0.35f);
-        Vector3 controlPoint21 = new Vector3(-0.27f, -0.2f, -0.24f);
-        Vector3 controlPoint0 = new Vector3(0.03f, -0.2f, -0.35f);
-        Vector3 controlPoint01 = new Vector3(0.03f, -0.2f, -0.35f);
+        Vector3 startPoint0 = new Vector3(0.177f, 0.1f, -0.177f);//
+        Vector3 endPoint0 = new Vector3(0.039f, 0.1f, -0.064f);
+        Vector3 startPoint1 = new Vector3(0.039f, 0.1f, -0.064f);
+        Vector3 endPoint1 = new Vector3(0.039f, 0.1f, 0.181f);
+        Vector3 startPoint2 = new Vector3(0.039f, 0.1f, 0.181f);
+        Vector3 endPoint2 = new Vector3(0.039f, 0.1f, -0.02f);
+        Vector3 controlPoint2 = new Vector3(-0.27f, 0.1f, 0.35f);
+        Vector3 controlPoint21 = new Vector3(-0.27f, 0.1f, -0.24f);
+        Vector3 controlPoint0 = new Vector3(0.03f, 0.1f, -0.35f);
+        Vector3 controlPoint01 = new Vector3(0.03f, 0.1f, -0.35f);
 
         lowQ[0].SetLineVector(startPoint0, endPoint0, controlPoint0, controlPoint01);
         lowQ[1].SetLineVector(startPoint1, endPoint1);
         lowQ[2].SetLineVector(startPoint2, endPoint2, controlPoint2, controlPoint21);
+        lowQ[0].isCurved = true;
+        lowQ[0].openUp = true;
+        lowQ[1].isVertical = true;
+        lowQ[2].isCurved = true;
+        lowQ[2].openRight = true;
 
         return lowQ;
     }
@@ -411,18 +487,22 @@ public struct LineVector
     {
         LineVector[] lowR = new LineVector[3];
         
-        Vector3 startPoint0 = new Vector3(-0.079f, -0.2f, 0.159f);
-        Vector3 endPoint0 = new Vector3(-0.079f, -0.2f, -0.185f);
-        Vector3 startPoint1 = new Vector3(-0.079f, -0.2f, -0.185f);
-        Vector3 endPoint1 = new Vector3(-0.079f, -0.2f, 0.115f);
-        Vector3 startPoint2 = new Vector3(-0.079f, -0.2f, 0.115f);
-        Vector3 endPoint2 = new Vector3(0.1f, -0.2f, 0.156f);
-        Vector3 controlPoint2 = new Vector3(0f, -0.2f, 0.15f);
-        Vector3 controlPoint21 = new Vector3(0f, -0.2f, 0.15f);
+        Vector3 startPoint0 = new Vector3(-0.079f, 0.1f, 0.159f);
+        Vector3 endPoint0 = new Vector3(-0.079f, 0.1f, -0.185f);
+        Vector3 startPoint1 = new Vector3(-0.079f, 0.1f, -0.185f);
+        Vector3 endPoint1 = new Vector3(-0.079f, 0.1f, 0.115f);
+        Vector3 startPoint2 = new Vector3(-0.079f, 0.1f, 0.115f);
+        Vector3 endPoint2 = new Vector3(0.1f, 0.1f, 0.1f);
+        Vector3 controlPoint2 = new Vector3(0f, 0.1f, 0.15f);
+        Vector3 controlPoint21 = new Vector3(0f, 0.1f, 0.15f);
 
         lowR[0].SetLineVector(startPoint0, endPoint0);
         lowR[1].SetLineVector(startPoint1, endPoint1);
         lowR[2].SetLineVector(startPoint2, endPoint2, controlPoint2, controlPoint21);
+        lowR[0].isVertical = true;
+        lowR[1].isVertical = true;
+        lowR[2].isCurved = true;
+        lowR[2].openDown = true;
 
         return lowR;
     }
@@ -432,21 +512,28 @@ public struct LineVector
     {
         LineVector[] lowS = new LineVector[3];
 
-        Vector3 startPoint0 = new Vector3(0.095f, -0.2f, 0.14f);
-        Vector3 endPoint0 = new Vector3(-0.086f, -0.2f, 0.045f);
-        Vector3 controlPoint0 = new Vector3(-0.1f, -0.2f, 0.24f);
-        Vector3 controlPoint01 = new Vector3(-0.2f, -0.2f, 0f);
-        Vector3 startPoint1 = new Vector3(0.086f, -0.2f, 0.045f);
-        Vector3 endPoint1 = new Vector3(0.099f, -0.2f, -0.018f);
-        Vector3 startPoint2 = new Vector3(0.099f, -0.2f, -0.018f);
-        Vector3 endPoint2 = new Vector3(-0.095f, -0.2f, -0.14f);
-        Vector3 controlPoint2 = new Vector3(0.2f, -0.2f, 0f);
-        Vector3 controlPoint21 = new Vector3(0.1f, -0.2f, -0.27f);
+        Vector3 startPoint0 = new Vector3(0.095f, 0.1f, 0.14f);
+        Vector3 endPoint0 = new Vector3(-0.086f, 0.1f, 0.045f);
+        Vector3 controlPoint0 = new Vector3(-0.1f, 0.1f, 0.24f);
+        Vector3 controlPoint01 = new Vector3(-0.2f, 0.1f, 0f);
+
+        Vector3 startPoint1 = new Vector3(-0.086f, 0.1f, 0.045f);
+        Vector3 endPoint1 = new Vector3(0.099f, 0.1f, -0.018f);
+
+        Vector3 startPoint2 = new Vector3(0.099f, 0.1f, -0.018f);
+        Vector3 endPoint2 = new Vector3(-0.095f, 0.1f, -0.14f);
+        Vector3 controlPoint2 = new Vector3(0.2f, 0.1f, 0f);
+        Vector3 controlPoint21 = new Vector3(0.1f, 0.1f, -0.27f);
 
 
         lowS[0].SetLineVector(startPoint0, endPoint0, controlPoint0, controlPoint01);
         lowS[1].SetLineVector(startPoint1, endPoint1);
         lowS[2].SetLineVector(startPoint2, endPoint2, controlPoint2, controlPoint21);
+        lowS[0].isCurved = true;
+        lowS[0].openDown = true;
+        lowS[1].isDiagonal = true;
+        lowS[2].isCurved = true;
+        lowS[2].openUp = true;
 
         return lowS;
     }
@@ -455,13 +542,15 @@ public struct LineVector
     {
         LineVector[] lowT = new LineVector[2];
 
-        Vector3 startPoint0 = new Vector3(0.007f, -0.2f, 0.254f);
-        Vector3 endPoint0 = new Vector3(0.007f, -0.2f, -0.275f);
-        Vector3 startPoint1 = new Vector3(-0.103f, -0.2f, 0.039f);
-        Vector3 endPoint1 = new Vector3(0.134f, -0.2f, 0.039f);
+        Vector3 startPoint0 = new Vector3(0.007f, 0.1f, 0.254f);
+        Vector3 endPoint0 = new Vector3(0.007f, 0.1f, -0.275f);
+        Vector3 startPoint1 = new Vector3(-0.103f, 0.1f, 0.039f);
+        Vector3 endPoint1 = new Vector3(0.134f, 0.1f, 0.039f);
 
         lowT[0].SetLineVector(startPoint0, endPoint0);
         lowT[1].SetLineVector(startPoint1, endPoint1);
+        lowT[0].isVertical = true;
+        lowT[1].isHorizontal = true;
 
         return lowT;
     }
@@ -470,15 +559,18 @@ public struct LineVector
     {
         LineVector[] lowU = new LineVector[2];
 
-        Vector3 startPoint0 = new Vector3(-0.13f, -0.2f, 0.171f);
-        Vector3 endPoint0 = new Vector3(0.13f, -0.2f, 0.171f);
-        Vector3 controlPoint0 = new Vector3(-0.18f, -0.2f, -0.25f);
-        Vector3 controlPoint01 = new Vector3(0f, -0.2f, -0.2f);
-        Vector3 startPoint1 = new Vector3(0.13f, -0.2f, 0.171f);
-        Vector3 endPoint1 = new Vector3(0.13f, -0.2f, -0.156f);
+        Vector3 startPoint0 = new Vector3(-0.13f, 0.1f, 0.171f);
+        Vector3 endPoint0 = new Vector3(0.13f, 0.1f, 0.171f);
+        Vector3 controlPoint0 = new Vector3(-0.18f, 0.1f, -0.25f);
+        Vector3 controlPoint01 = new Vector3(.18f, 0.1f, -0.2f);
+        Vector3 startPoint1 = new Vector3(0.13f, 0.1f, 0.171f);
+        Vector3 endPoint1 = new Vector3(0.13f, 0.1f, -0.145f);
 
         lowU[0].SetLineVector(startPoint0, endPoint0, controlPoint0, controlPoint01);
         lowU[1].SetLineVector(startPoint1, endPoint1);
+        lowU[0].isCurved = true;
+        lowU[0].openUp = true;
+        lowU[1].isVertical = true;
 
         return lowU;
     }
@@ -487,13 +579,16 @@ public struct LineVector
     {
         LineVector[] lowV = new LineVector[2];
 
-        Vector3 startPoint0 = new Vector3(-0.116f, -0.2f, 0.152f);
-        Vector3 endPoint0 = new Vector3(0f, -0.2f, 0.18f);
-        Vector3 startPoint1 = new Vector3(0f, -0.2f, 0.18f);
-        Vector3 endPoint1 = new Vector3(0.132f, -0.2f, 0.152f);
+        Vector3 startPoint0 = new Vector3(-0.116f, 0.1f, 0.1f);
+        Vector3 endPoint0 = new Vector3(0f, 0.1f, -0.2f);
+
+        Vector3 startPoint1 = new Vector3(0f, 0.1f, -0.2f);
+        Vector3 endPoint1 = new Vector3(0.116f, 0.1f, 0.1f);
 
         lowV[0].SetLineVector(startPoint0, endPoint0);
         lowV[1].SetLineVector(startPoint1, endPoint1);
+        lowV[0].isDiagonal = true;
+        lowV[1].isDiagonal = true;
 
         return lowV;
     }
@@ -502,19 +597,24 @@ public struct LineVector
     {
         LineVector[] lowW = new LineVector[4];
 
-        Vector3 startPoint0 = new Vector3(-0.223f, -0.2f, 0.158f);
-        Vector3 endPoint0 = new Vector3(-0.118f, -0.2f, -0.167f);
-        Vector3 startPoint1 = new Vector3(-0.118f, -0.2f, -0.167f);
-        Vector3 endPoint1 = new Vector3(0f, -0.2f, 0.158f);
-        Vector3 startPoint2 = new Vector3(0f, -0.2f, 0.158f);
-        Vector3 endPoint2 = new Vector3(0.118f, -0.2f, -0.167f);
-        Vector3 startPoint3 = new Vector3(0.118f, -0.2f, -0.167f);
-        Vector3 endPoint3 = new Vector3(0.223f, -0.2f, 0.158f);
+        Vector3 startPoint0 = new Vector3(-0.223f, 0.1f, 0.158f);
+        Vector3 endPoint0 = new Vector3(-0.118f, 0.1f, -0.167f);
+        Vector3 startPoint1 = new Vector3(-0.118f, 0.1f, -0.167f);
+        Vector3 endPoint1 = new Vector3(0f, 0.1f, 0.158f);
+        Vector3 startPoint2 = new Vector3(0f, 0.1f, 0.158f);
+        Vector3 endPoint2 = new Vector3(0.118f, 0.1f, -0.167f);
+        Vector3 startPoint3 = new Vector3(0.118f, 0.1f, -0.167f);
+        Vector3 endPoint3 = new Vector3(0.223f, 0.1f, 0.158f);
 
         lowW[0].SetLineVector(startPoint0, endPoint0);
         lowW[1].SetLineVector(startPoint1, endPoint1);
         lowW[2].SetLineVector(startPoint2, endPoint2);
         lowW[3].SetLineVector(startPoint3, endPoint3);
+        lowW[0].isDiagonal = true;
+        lowW[1].isDiagonal = true;
+        lowW[2].isDiagonal = true;
+        lowW[3].isDiagonal = true;
+
 
         return lowW;
     }
@@ -523,14 +623,16 @@ public struct LineVector
     {
         LineVector[] lowX = new LineVector[2];
 
-        Vector3 startPoint0 = new Vector3(-0.15f, -0.2f, 0.18f);
-        Vector3 endPoint0 = new Vector3(0.15f, -0.2f, -0.18f);
-        Vector3 startPoint1 = new Vector3(0.15f, -0.2f, 0.18f);
-        Vector3 endPoint1 = new Vector3(-0.15f, -0.2f, -0.18f);
+        Vector3 startPoint0 = new Vector3(-0.15f, 0.1f, 0.18f);
+        Vector3 endPoint0 = new Vector3(0.15f, 0.1f, -0.18f);
+        Vector3 startPoint1 = new Vector3(0.15f, 0.1f, 0.18f);
+        Vector3 endPoint1 = new Vector3(-0.15f, 0.1f, -0.18f);
 
 
         lowX[0].SetLineVector(startPoint0, endPoint0);
         lowX[1].SetLineVector(startPoint1, endPoint1);
+        lowX[0].isDiagonal = true;
+        lowX[1].isDiagonal = true;
 
         return lowX;
     }
@@ -539,13 +641,15 @@ public struct LineVector
     {
         LineVector[] lowY = new LineVector[2];
 
-        Vector3 startPoint0 = new Vector3(-0.1f, -0.2f, 0.205f);
-        Vector3 endPoint0 = new Vector3(0.009f, -0.2f, -0.065f);
-        Vector3 startPoint1 = new Vector3(0.1f, -0.2f, 0.205f);
-        Vector3 endPoint1 = new Vector3(-0.05f, -0.2f, -0.216f);
+        Vector3 startPoint0 = new Vector3(-0.1f, 0.1f, 0.205f);
+        Vector3 endPoint0 = new Vector3(0.009f, 0.1f, -0.065f);
+        Vector3 startPoint1 = new Vector3(0.1f, 0.1f, 0.205f);
+        Vector3 endPoint1 = new Vector3(-0.05f, 0.1f, -0.216f);
 
         lowY[0].SetLineVector(startPoint0, endPoint0);
         lowY[1].SetLineVector(startPoint1, endPoint1);
+        lowY[0].isDiagonal = true;
+        lowY[1].isDiagonal = true;
 
         return lowY;
     }
@@ -554,16 +658,19 @@ public struct LineVector
     {
         LineVector[] lowZ = new LineVector[3];
 
-        Vector3 startPoint0 = new Vector3(-0.153f, -0.2f, 0.175f);
-        Vector3 endPoint0 = new Vector3(0.153f, -0.2f, 0.175f);
-        Vector3 startPoint1 = new Vector3(0.153f, -0.2f, 0.175f);
-        Vector3 endPoint1 = new Vector3(-0.153f, -0.2f, -0.175f);
-        Vector3 startPoint2 = new Vector3(-0.153f, -0.2f, -0.175f);
-        Vector3 endPoint2 = new Vector3(0.153f, -0.2f, -0.175f);
+        Vector3 startPoint0 = new Vector3(-0.153f, 0.1f, 0.175f);
+        Vector3 endPoint0 = new Vector3(0.153f, 0.1f, 0.175f);
+        Vector3 startPoint1 = new Vector3(0.153f, 0.1f, 0.175f);
+        Vector3 endPoint1 = new Vector3(-0.153f, 0.1f, -0.175f);
+        Vector3 startPoint2 = new Vector3(-0.153f, 0.1f, -0.175f);
+        Vector3 endPoint2 = new Vector3(0.153f, 0.1f, -0.175f);
 
         lowZ[0].SetLineVector(startPoint0, endPoint0);
         lowZ[1].SetLineVector(startPoint1, endPoint1);
         lowZ[2].SetLineVector(startPoint2, endPoint2);
+        lowZ[0].isHorizontal = true;
+        lowZ[1].isDiagonal = true;
+        lowZ[2].isHorizontal = true;
 
         return lowZ;
     }
