@@ -38,6 +38,8 @@ public class TraceFeedback : MonoBehaviour
 
     public AudioSource letterCompleted;
 
+    public AudioSource pickUp;
+
     public bool startPoint0Reached = false;
     public bool startPoint1Reached = false;
     public bool startPoint2Reached = false;
@@ -51,7 +53,7 @@ public class TraceFeedback : MonoBehaviour
 
     public bool curveReached = false;
     public bool penDown = false;
-    public int startSound = 1;
+    public int startSound = 5;
     public float accumulateTime = 0;
     public float fixedTimer;
     public int stroke = 0;
@@ -60,65 +62,57 @@ public class TraceFeedback : MonoBehaviour
     public Vector3 tipPenLocalPosition;
     public Vector3 circlePoint;
 
-    public bool lowADone = false;
-    public bool lowBDone = false;
-    public bool lowCDone = false;
-    public bool lowDDone = false;
-    public bool lowEDone = false;
-    public bool lowFDone = false;
-    public bool lowGDone = false;
-    public bool lowHDone = false;
-    public bool lowIDone = false;
-    public bool lowJDone = false;
-    public bool lowKDone = false;
-    public bool lowLDone = false;
-    public bool lowMDone = false;
-    public bool lowNDone = false;
-    public bool lowODone = false;
-    public bool lowPDone = false;
-    public bool lowQDone = false;
-    public bool lowRDone = false;
-    public bool lowSDone = false;
-    public bool lowTDone = false;
-    public bool lowUDone = false;
-    public bool lowVDone = false;
-    public bool lowWDone = false;
-    public bool lowXDone = false;
-    public bool lowYDone = false;
-    public bool lowZDone = false;
-
     public LineVector[] LowA = LineVector.GetLowA();
     public LineVector[] LowB = LineVector.GetLowB();
-    LineVector[] LowC = LineVector.GetLowC();
-    LineVector[] LowD = LineVector.GetLowD();
-    LineVector[] LowE = LineVector.GetLowE();
-    LineVector[] LowF = LineVector.GetLowF();
-    LineVector[] LowG = LineVector.GetLowG();
-    LineVector[] LowH = LineVector.GetLowH();
-    LineVector[] LowI = LineVector.GetLowI();
-    LineVector[] LowJ = LineVector.GetLowJ();
-    LineVector[] LowK = LineVector.GetLowK();
-    LineVector[] LowL = LineVector.GetLowL();
-    LineVector[] LowM = LineVector.GetLowM();
-    LineVector[] LowN = LineVector.GetLowN();
-    LineVector[] LowO = LineVector.GetLowO();
-    LineVector[] LowP = LineVector.GetLowP();
-    LineVector[] LowQ = LineVector.GetLowQ();
-    LineVector[] LowR = LineVector.GetLowR();
-    LineVector[] LowS = LineVector.GetLowS();
-    LineVector[] LowT = LineVector.GetLowT();
-    LineVector[] LowU = LineVector.GetLowU();
-    LineVector[] LowV = LineVector.GetLowV();
-    LineVector[] LowW = LineVector.GetLowW();
-    LineVector[] LowX = LineVector.GetLowX();
-    LineVector[] LowY = LineVector.GetLowY();
-    LineVector[] LowZ = LineVector.GetLowZ();
+    public LineVector[] LowC = LineVector.GetLowC();
+    public LineVector[] LowD = LineVector.GetLowD();
+    public LineVector[] LowE = LineVector.GetLowE();
+    public LineVector[] LowF = LineVector.GetLowF();
+    public LineVector[] LowG = LineVector.GetLowG();
+    public LineVector[] LowH = LineVector.GetLowH();
+    public LineVector[] LowI = LineVector.GetLowI();
+    public LineVector[] LowJ = LineVector.GetLowJ();
+    public LineVector[] LowK = LineVector.GetLowK();
+    public LineVector[] LowL = LineVector.GetLowL();
+    public LineVector[] LowM = LineVector.GetLowM();
+    public LineVector[] LowN = LineVector.GetLowN();
+    public LineVector[] LowO = LineVector.GetLowO();
+    public LineVector[] LowP = LineVector.GetLowP();
+    public LineVector[] LowQ = LineVector.GetLowQ();
+    public LineVector[] LowR = LineVector.GetLowR();
+    public LineVector[] LowS = LineVector.GetLowS();
+    public LineVector[] LowT = LineVector.GetLowT();
+    public LineVector[] LowU = LineVector.GetLowU();
+    public LineVector[] LowV = LineVector.GetLowV();
+    public LineVector[] LowW = LineVector.GetLowW();
+    public LineVector[] LowX = LineVector.GetLowX();
+    public LineVector[] LowY = LineVector.GetLowY();
+    public LineVector[] LowZ = LineVector.GetLowZ();
+    public LineVector[] Vlup = LineVector.GetVlup();
+    public LineVector[] Vldown = LineVector.GetVldown();
+    public LineVector[] Hlright = LineVector.GetHlright();
+    public LineVector[] Hlleft = LineVector.GetHlleft();
+    public LineVector[] Dltlbr = LineVector.GetDltlbr();
+    public LineVector[] Dltrbl = LineVector.GetDltrbl();
+    public LineVector[] Dlbrtl = LineVector.GetDlbrtl();
+    public LineVector[] Dlbltr = LineVector.GetDlbltr();
+    public LineVector[] Sctl = LineVector.GetSctl();
+    public LineVector[] Sctr = LineVector.GetSctr();
+    public LineVector[] Scbl = LineVector.GetScbl();
+    public LineVector[] Scbr = LineVector.GetScbr();
+    public LineVector[] Sclup = LineVector.GetSclup();
+    public LineVector[] Scldown = LineVector.GetScldown();
+    public LineVector[] Scrup = LineVector.GetScrup();
+    public LineVector[] Scrdown = LineVector.GetScrdown();
 
     public PenMovementRecorder penMovementRecorder;
 
     float delayBeforeLetterStrokeAudio = 5.0f;
     float delayBeforeCompletion = 7.0f;
+    public bool isDone;
+    public Starter start;
 
+    
     public void Start()
     {
         startPoint0Reached = false;
@@ -132,6 +126,7 @@ public class TraceFeedback : MonoBehaviour
         endPoint3Reached = false;
         endPoint4Reached = false;
 
+        start = FindObjectOfType<Starter>();
 
         templateMatcher = FindObjectOfType<TemplateMatching>();
         fixedTimer = Time.fixedDeltaTime;
@@ -139,7 +134,7 @@ public class TraceFeedback : MonoBehaviour
         currentInt = FindObjectOfType<letter_rotator>();
         LineVector y = new LineVector();
         alphabet = y.InitializeAlphabet();
-        Debug.Log(currentInt.i);
+        //Debug.Log(currentInt.i);
         letterArray = alphabet[currentInt.i];
         /*letterArray = alphabet[1];
         lineVector = letterArray[0]; 
@@ -149,10 +144,10 @@ public class TraceFeedback : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(currentInt.i);
+        //Debug.Log(currentInt.i);
         if (currentInt.i != previousInt)
         {
-            Debug.Log("works");
+            //Debug.Log("works");
             previousInt = currentInt.i; // Update previousInt to the current value
 
             switch (currentInt.i)
@@ -164,7 +159,7 @@ public class TraceFeedback : MonoBehaviour
                 case 3:
                     lineVector = LowB[0];
                     letterArray = alphabet[3];
-                    Debug.Log("LOWB");
+                    //Debug.Log("LOWB");
                     break;
                 // Add cases for other values of rotate.i as needed
                 case 5:
@@ -264,6 +259,62 @@ public class TraceFeedback : MonoBehaviour
                     lineVector = LowZ[0];
                     letterArray = alphabet[51];
                     break;
+                case 53:
+                    lineVector = Vlup[0];
+                    letterArray = alphabet[53];
+                    break;
+                case 55:
+                    lineVector = Vldown[0];
+                    letterArray = alphabet[55];
+                    break;
+                case 57:
+                    lineVector = Hlleft[0];
+                    letterArray = alphabet[57];
+                    break;
+                case 59:
+                    lineVector = Hlright[0];
+                    letterArray = alphabet[59];
+                    break;
+                case 61:
+                    lineVector = Dltlbr[0];
+                    letterArray = alphabet[61];
+                    break;
+                case 63:
+                    lineVector = Dltrbl[0];
+                    letterArray = alphabet[63];
+                    break;
+                case 65:
+                    lineVector = Dlbltr[0];
+                    letterArray = alphabet[65];
+                    break;
+                case 67:
+                    lineVector = Sctl[0];
+                    letterArray = alphabet[67];
+                    break;
+                case 69:
+                    lineVector = Sctr[0];
+                    letterArray = alphabet[69];
+                    break;
+                case 71:
+                    lineVector = Scbr[0];
+                    letterArray = alphabet[71];
+                    break;
+                case 73:
+                    lineVector = Sclup[0];
+                    letterArray = alphabet[73];
+                    break;
+                case 75:
+                    lineVector = Scldown[0];
+                    letterArray = alphabet[75];
+                    break;
+                case 77:
+                    lineVector = Scrup[0];
+                    letterArray = alphabet[77];
+                    break;
+                case 79:
+                    lineVector = Scrdown[0];
+                    letterArray = alphabet[79];
+                    break;
                 default:
                     // Default case: set lineVector to some default value if needed
                     break;
@@ -271,7 +322,6 @@ public class TraceFeedback : MonoBehaviour
 
 
         }
-        
         CheckContact();
         //SDebug.Log("start: " + startPoint0 + " Pen: " + tipPenLocalPosition);
  
@@ -284,8 +334,8 @@ public class TraceFeedback : MonoBehaviour
     {
         // Convert the world space position of tipPen to the local space of this game object
         tipPenLocalPosition = transform.InverseTransformPoint(tipPen.transform.position);
-        float otherPointX = lineVector.startPoint.x;
-        float otherPointZ = lineVector.startPoint.z;
+        float otherPointX = lineVector.startPoint.x + start.biasX;
+        float otherPointZ = lineVector.startPoint.z + start.biasZ;
         float changeX = Mathf.Abs(otherPointX - tipPenLocalPosition.x);
         float changeZ = Mathf.Abs(otherPointZ - tipPenLocalPosition.z);
         if(startPointReached == false)
@@ -296,15 +346,18 @@ public class TraceFeedback : MonoBehaviour
 
     public int CheckContact()
     {
+        templateMatcher = FindObjectOfType<TemplateMatching>();
         penMovementRecorder = FindObjectOfType<PenMovementRecorder>();
         //STARTPOINT CHECK
         tipPenLocalPosition = transform.InverseTransformPoint(tipPen.transform.position);
-        //BEFORE float distanceStart = Vector3.Distance(lineVector.startPoint, tipPenLocalPosition);
-        float distanceStart = Vector3.Distance(new Vector3(lineVector.startPoint.x, 0f, lineVector.startPoint.z), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
-        GetToStart(startPoint0Reached);
+        float distanceStart = Vector3.Distance(new Vector3(lineVector.startPoint.x + start.biasX, 0f, lineVector.startPoint.z + start.biasZ), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
+        //GetToStart(startPoint0Reached);
+       
+
         //Debug.Log("Pen: " + tipPenLocalPosition + " Start: " + lineVector.startPoint);
-        if (distanceStart < 0.1 && startPoint0Reached == false)
+        if ((distanceStart < 0.05) && startPoint0Reached == false)
         {
+            directer.Stop();
             //straightUp.Play();
             letterStroke();
             stroke = 0;
@@ -312,61 +365,87 @@ public class TraceFeedback : MonoBehaviour
             penMovementRecorder.StartRecording();
             Debug.Log("Start Point Reached");
             templateMatcher.GetTemplate();
+            Debug.Log(lineVector.endPoint.x);
         } 
         //ENDPOINT CHECK
-        float distanceEnd = Vector3.Distance(new Vector3(lineVector.endPoint.x, 0f, lineVector.endPoint.z), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
+        float distanceEnd = Vector3.Distance(new Vector3(lineVector.endPoint.x + start.biasX, 0f, lineVector.endPoint.z + start.biasZ), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
         if(startPoint0Reached == true && endPoint0Reached == false)
         {
+            
             CheckTrace(accumulateTime, fixedTimer, startSound, startPoint0Reached);  
             if(distanceEnd < 0.05)
             {
+                Debug.Log("THIS WORKS");
+                directer.Stop();
                 accumulateTime = 0f;
                 endPoint0Reached = true;
                 penMovementRecorder.StopRecording();
-                ////////penMovementRecorder.GenerateAndSaveImage();
                 penMovementRecorder.ClearTexture();
                 if(letterArray.Length == 1)
                 {
-                    StartCoroutine(PlayLetterCompletedAudioWithDelay(delayBeforeCompletion));
+                    isDone = true;
+                    directer.Stop();
+                    StartCoroutine(PlayLetterCompletedAudioWithDelay(templateMatcher.corrections.Count));
+                }
+                if(letterArray.Length > 1)
+                {
+                    if(letterArray[1].pickUp == true)
+                    {
+                        StartCoroutine(PlayPickUpAudioWithDelay(templateMatcher.corrections.Count));
+                    }
                 }
 
             }
+            Debug.Log("THIS WORKS");
         }
             
         //Debug.Log(letterArray.Length);
         // Letters w/ > 1 vectors
+        Debug.Log(letterArray.Length);
         if(letterArray.Length > 1 && endPoint0Reached == true && endPoint1Reached == false)
         {
             lineVector = letterArray[1];
             templateMatcher.GetTemplate();
-            float distanceStart1 = Vector3.Distance(new Vector3(lineVector.startPoint.x, 0f, lineVector.startPoint.z), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
-
-            GetToStart(startPoint1Reached);
+            float distanceStart1 = Vector3.Distance(new Vector3(lineVector.startPoint.x + start.biasX, 0f, lineVector.startPoint.z + start.biasZ), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
+            
+            //GetToStart(startPoint1Reached);
             //Debug.Log(lineVector.startPoint);
-            if (distanceStart1 < 0.05 && startPoint1Reached == false)
+            if ((distanceStart1 < 0.05) && startPoint1Reached == false)
             {  
-                StartCoroutine(PlayLetterStrokeAudioWithDelay(delayBeforeLetterStrokeAudio));
-                accumulateTime = 0f;
-                //Debug.Log("animal");
-                startPoint1Reached = true;
                 directer.Stop();
+                Debug.Log(templateMatcher.corrections.Count);
+                StartCoroutine(PlayLetterStrokeAudioWithDelay(templateMatcher.corrections.Count));
+                accumulateTime = 0f;
+                startPoint1Reached = true;
+                
                 penMovementRecorder.StartRecording();
+                stroke = 1;
                 
             }
-            float distanceEnd1 = Vector3.Distance(new Vector3(lineVector.endPoint.x, 0f, lineVector.endPoint.z), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
+            float distanceEnd1 = Vector3.Distance(new Vector3(lineVector.endPoint.x + start.biasX, 0f, lineVector.endPoint.z + start.biasZ), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
 
             if(startPoint1Reached == true && endPoint1Reached == false){
                 CheckTrace(accumulateTime, fixedTimer, startSound, startPoint1Reached);
+
                 if(distanceEnd1 < 0.05)
                 { 
+                    directer.Stop();
                     accumulateTime = 0f;
                     endPoint1Reached = true;
                     penMovementRecorder.StopRecording();
-                    ///////penMovementRecorder.GenerateAndSaveImage();
                     penMovementRecorder.ClearTexture();
                     if(letterArray.Length == 2)
                     {
-                        StartCoroutine(PlayLetterCompletedAudioWithDelay(delayBeforeCompletion));
+                        isDone = true;
+                        directer.Stop();
+                        StartCoroutine(PlayLetterCompletedAudioWithDelay(templateMatcher.corrections.Count));
+                    }
+                    if(letterArray.Length > 2)
+                    {
+                        if(letterArray[2].pickUp == true)
+                        {
+                            StartCoroutine(PlayPickUpAudioWithDelay(templateMatcher.corrections.Count));
+                        }
                     }
                 }
             }
@@ -375,32 +454,35 @@ public class TraceFeedback : MonoBehaviour
         {
             lineVector = letterArray[2];
             templateMatcher.GetTemplate();
-            float distanceStart2 = Vector3.Distance(new Vector3(lineVector.startPoint.x, 0f, lineVector.startPoint.z), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
-
-            GetToStart(startPoint2Reached);
-            if (distanceStart2 < 0.05 && startPoint2Reached == false)
+            float distanceStart2 = Vector3.Distance(new Vector3(lineVector.startPoint.x + start.biasX, 0f, lineVector.startPoint.z + start.biasZ), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
+            //GetToStart(startPoint2Reached);
+            if ((distanceStart2 < 0.05) && startPoint2Reached == false)
             {
-                StartCoroutine(PlayLetterStrokeAudioWithDelay(delayBeforeLetterStrokeAudio));
+                directer.Stop();
+                StartCoroutine(PlayLetterStrokeAudioWithDelay(templateMatcher.corrections.Count));
                 accumulateTime = 0f;
                 startPoint2Reached = true;
                 penMovementRecorder.StartRecording();
+                stroke = 2;
                 
             }
-            float distanceEnd2 = Vector3.Distance(new Vector3(lineVector.endPoint.x, 0f, lineVector.endPoint.z), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
+            float distanceEnd2 = Vector3.Distance(new Vector3(lineVector.endPoint.x + start.biasX, 0f, lineVector.endPoint.z + start.biasZ), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
 
             if(startPoint2Reached == true && endPoint2Reached == false)
             {
                 CheckTrace(accumulateTime, fixedTimer, startSound, startPoint2Reached);
                 if(distanceEnd2 < 0.05)
                 {
+                    directer.Stop();
                     accumulateTime = 0f;
                     endPoint2Reached = true;
                     penMovementRecorder.StopRecording();
-                    ///////penMovementRecorder.GenerateAndSaveImage();
                     penMovementRecorder.ClearTexture();
                     if(letterArray.Length == 3)
                     {
-                        StartCoroutine(PlayLetterCompletedAudioWithDelay(delayBeforeCompletion));
+                        isDone = true;
+                        directer.Stop();
+                        StartCoroutine(PlayLetterCompletedAudioWithDelay(templateMatcher.corrections.Count));
                     }
                 }
             }
@@ -408,33 +490,36 @@ public class TraceFeedback : MonoBehaviour
         if(letterArray.Length > 3 && endPoint2Reached == true && endPoint3Reached == false)
         {
             lineVector = letterArray[3];
-            float distanceStart3 = Vector3.Distance(new Vector3(lineVector.startPoint.x, 0f, lineVector.startPoint.z), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
+            float distanceStart3 = Vector3.Distance(new Vector3(lineVector.startPoint.x + start.biasX, 0f, lineVector.startPoint.z + start.biasZ), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
 
-            GetToStart(startPoint3Reached);
-                if (distanceStart3 < 0.05 && startPoint3Reached == false)
+            //GetToStart(startPoint3Reached);
+                if ((distanceStart3 < 0.05) && startPoint3Reached == false)
             {
-                StartCoroutine(PlayLetterStrokeAudioWithDelay(delayBeforeLetterStrokeAudio));
+                directer.Stop();
+                StartCoroutine(PlayLetterStrokeAudioWithDelay(templateMatcher.corrections.Count));
                 accumulateTime = 0f;
                 startPoint3Reached = true;
                 penMovementRecorder.StartRecording();
+                stroke = 3;
                 
             }
-            float distanceEnd3 = Vector3.Distance(new Vector3(lineVector.endPoint.x, 0f, lineVector.endPoint.z), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
+            float distanceEnd3 = Vector3.Distance(new Vector3(lineVector.endPoint.x + start.biasX, 0f, lineVector.endPoint.z + start.biasZ), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
 
             if(startPoint3Reached == true && endPoint3Reached == false)
-            {
+            {   
                 CheckTrace(accumulateTime, fixedTimer, startSound, startPoint3Reached);
                 if(distanceEnd3 < 0.05)
                 { 
-                    
+                    directer.Stop();
                     accumulateTime = 0f;
                     endPoint3Reached = true;
                     penMovementRecorder.StopRecording();
-                    ///////penMovementRecorder.GenerateAndSaveImage();
                     penMovementRecorder.ClearTexture();
                     if(letterArray.Length == 4)
                     {
-                        StartCoroutine(PlayLetterCompletedAudioWithDelay(delayBeforeCompletion));
+                        isDone = true;
+                        directer.Stop();
+                        StartCoroutine(PlayLetterCompletedAudioWithDelay(templateMatcher.corrections.Count));
                     }
                 }
             }
@@ -444,18 +529,20 @@ public class TraceFeedback : MonoBehaviour
         {
             lineVector = letterArray[4];
             templateMatcher.GetTemplate();
-            float distanceStart4 = Vector3.Distance(new Vector3(lineVector.startPoint.x, 0f, lineVector.startPoint.z), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
+            float distanceStart4 = Vector3.Distance(new Vector3(lineVector.startPoint.x + start.biasX, 0f, lineVector.startPoint.z + start.biasZ), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
 
-            GetToStart(startPoint4Reached);
-            if (distanceStart4 < 0.05 && startPoint4Reached == false)
+            //GetToStart(startPoint4Reached);
+            if ((distanceStart4 < 0.05) && startPoint4Reached == false)
             {
-                StartCoroutine(PlayLetterStrokeAudioWithDelay(delayBeforeLetterStrokeAudio));
+                directer.Stop();
+                StartCoroutine(PlayLetterStrokeAudioWithDelay(templateMatcher.corrections.Count));
                 accumulateTime = 0f;
                 startPoint4Reached = true;
                 penMovementRecorder.StartRecording();
+                stroke = 4;
                 
             }
-            float distanceEnd4 = Vector3.Distance(new Vector3(lineVector.endPoint.x, 0f, lineVector.endPoint.z), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
+            float distanceEnd4 = Vector3.Distance(new Vector3(lineVector.endPoint.x + start.biasX, 0f, lineVector.endPoint.z + start.biasZ), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
 
             if(startPoint4Reached == true && endPoint4Reached == false)
             {
@@ -465,10 +552,10 @@ public class TraceFeedback : MonoBehaviour
                     accumulateTime = 0f;
                     endPoint4Reached = true;
                     penMovementRecorder.StopRecording();
-                    /////penMovementRecorder.GenerateAndSaveImage();
                     penMovementRecorder.ClearTexture();
-                
-                    StartCoroutine(PlayLetterCompletedAudioWithDelay(delayBeforeCompletion));
+                    isDone = true;
+                    directer.Stop();
+                    StartCoroutine(PlayLetterCompletedAudioWithDelay(templateMatcher.corrections.Count));
                 
                 }
             }
@@ -478,60 +565,57 @@ public class TraceFeedback : MonoBehaviour
         return stroke;
     }
         
-    private void CheckTrace(float accumulateTime, float fixedTimer, int startSound, bool startPointReached)
+private void CheckTrace(float accumulateTime, float fixedTimer, int startSound, bool startPointReached)
+{
+    tipPenLocalPosition = transform.InverseTransformPoint(tipPen.transform.position);
+    if (startPointReached)
     {
-        tipPenLocalPosition = transform.InverseTransformPoint(tipPen.transform.position);
-        if (startPointReached)
+        directer.volume = 0f;
+        if (lineVector.isCurved == false)
         {
-            if(lineVector.isCurved == false)
-            {
-                Vector3 closestPoint = ClosestPointOnLineSegment(lineVector.startPoint, lineVector.endPoint, tipPenLocalPosition);
-                float distanceToClosestPoint = Vector3.Distance(closestPoint, tipPenLocalPosition);
+            Vector3 closestPoint = ClosestPointOnLineSegment(lineVector.startPoint, lineVector.endPoint, tipPenLocalPosition);
+            float distanceToClosestPoint = Vector3.Distance(closestPoint, tipPenLocalPosition);
 
-                float lineLength = Vector3.Distance(lineVector.startPoint, lineVector.endPoint);
+            float lineLength = Vector3.Distance(lineVector.startPoint, lineVector.endPoint);
 
-                // Calculate t based on distance to the end of the line (instead of distance to the closestPoint)
-                float t = Mathf.InverseLerp(0f, lineLength, distanceToClosestPoint);
+            // Calculate t based on distance to the end of the line (instead of distance to the closestPoint)
+            float t = Mathf.InverseLerp(0f, lineLength, distanceToClosestPoint);
 
-                
+            // Calculate the furtherPoint as a linear interpolation between closestPoint and endPoint
+            furtherPoint = Vector3.Lerp(closestPoint, lineVector.endPoint, t);
+            furtherPoint.z += start.biasZ;
+            furtherPoint.x += start.biasX;
+            furtherPoint.y = 0.04f;
+        }
+        if (lineVector.isCurved)
+        {
+            float t = CalculateTClosestToTipPen(lineVector.startPoint, lineVector.endPoint, lineVector.controlPoint, lineVector.controlPoint2, tipPenLocalPosition);
+            float tOffset = 0.3f;
+            t += tOffset;
+            Vector3 closestPoint = ClosestPointOnCubicBezierCurve(lineVector.startPoint, lineVector.endPoint, lineVector.controlPoint, lineVector.controlPoint2, tipPenLocalPosition);
+            float distanceToClosestPoint = Vector3.Distance(closestPoint, tipPenLocalPosition);
 
-                // Calculate the furtherPoint as a linear interpolation between closestPoint and endPoint
-                furtherPoint = Vector3.Lerp(closestPoint, lineVector.endPoint, t);
-            }
-            if(lineVector.isCurved)
-            {
-                float t = CalculateTClosestToTipPen(lineVector.startPoint, lineVector.endPoint, lineVector.controlPoint, lineVector.controlPoint2, tipPenLocalPosition);
-                float tOffset = 0.1f; // Adjust this value as needed
-                t += tOffset;
-                //t = Mathf.Clamp01(t);
-                Vector3 closestPoint = ClosestPointOnCubicBezierCurve(lineVector.startPoint, lineVector.endPoint, lineVector.controlPoint, lineVector.controlPoint2, tipPenLocalPosition);
-                float distanceToClosestPoint = Vector3.Distance(closestPoint, tipPenLocalPosition);
+            float curveLength = CalculateCubicBezierLength(lineVector.startPoint, lineVector.endPoint, lineVector.controlPoint, lineVector.controlPoint2);
 
-                float curveLength = CalculateCubicBezierLength(lineVector.startPoint, lineVector.endPoint, lineVector.controlPoint, lineVector.controlPoint2);
-               
+            furtherPoint = CalculateCubicBezierPoint(lineVector.startPoint, lineVector.endPoint, lineVector.controlPoint, lineVector.controlPoint2, t);
+            furtherPoint.z += start.biasZ;
+            furtherPoint.x += start.biasX;
+            furtherPoint.y = 0.04f;
+        }
 
-                furtherPoint = CalculateCubicBezierPoint(lineVector.startPoint, lineVector.endPoint, lineVector.controlPoint, lineVector.controlPoint2, t);
-            
-                circlePoint = furtherPoint;
-                circlePoint.y = 0.04f;
-            }
-           
+        float changeX = Mathf.Abs(furtherPoint.x - tipPenLocalPosition.x);
+        float changeZ = Mathf.Abs(furtherPoint.z - tipPenLocalPosition.z);
+        accumulateTime = (float)System.Math.Round(accumulateTime, 3);
+        StartCoroutine(PlaySonificationWithDelay(templateMatcher.corrections.Count, furtherPoint.x, furtherPoint.z, tipPenLocalPosition, lineVector.startPoint, lineVector.endPoint));
 
-            float changeX = Mathf.Abs(furtherPoint.x - tipPenLocalPosition.x);
-            float changeZ = Mathf.Abs(furtherPoint.z - tipPenLocalPosition.z);
-            checkTime();
-            accumulateTime = (float)System.Math.Round(accumulateTime, 3);
-            if (accumulateTime >= startSound)
-            {
-                //Debug.Log("Pop");
-                Sonification(furtherPoint.x, furtherPoint.z, tipPenLocalPosition);
-            }
-            if (circle != null)
-            {
-                circle.transform.localPosition = circlePoint;
-            }
+        //Sonification1(furtherPoint.x, furtherPoint.z, tipPenLocalPosition, lineVector.startPoint, lineVector.endPoint);
+
+        if (circle != null)
+        {
+            circle.transform.localPosition = furtherPoint;
         }
     }
+}
 
 
 
@@ -571,7 +655,7 @@ public class TraceFeedback : MonoBehaviour
                 t -= step;
             }
 
-            step *= 0.5f; // Reduce step size for better convergence
+            step *= 0.5f;
         }
 
         return CalculateCubicBezierPoint(startPoint, endPoint, controlPoint1, controlPoint2, t);
@@ -597,7 +681,7 @@ public class TraceFeedback : MonoBehaviour
 
     private float CalculateTClosestToTipPen(Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3, Vector3 tipPenLocalPos)
     {
-        int iterations = 100;
+        int iterations = 1000;
         float tMin = 0f;
         float tMax = 1f;
         float minDistance = float.MaxValue;
@@ -621,6 +705,7 @@ public class TraceFeedback : MonoBehaviour
 
     private Vector3 CalculateCubicBezierPoint(Vector3 startPoint, Vector3 endPoint, Vector3 controlPoint1, Vector3 controlPoint2, float t)
     {
+        t = Mathf.Clamp01(t);
         float u = 1f - t;
         float tt = t * t;
         float uu = u * u;
@@ -662,7 +747,7 @@ public class TraceFeedback : MonoBehaviour
             float distanceRatio = Mathf.InverseLerp(otherPointX - maxDistanceX, otherPointX, tipPenLocalPosition.x);
 
             // Use SmoothStep to achieve a smoother transition
-            float volume = Mathf.SmoothStep(1f, 0.3f, distanceRatio);
+            float volume = Mathf.SmoothStep(1f, 0.7f, distanceRatio);
             directer.volume = volume;
         }
         else if (otherPointX < tipPenLocalPosition.x)
@@ -671,7 +756,7 @@ public class TraceFeedback : MonoBehaviour
             float distanceRatio = Mathf.InverseLerp(otherPointX + maxDistanceX, otherPointX, tipPenLocalPosition.x);
 
             // Use SmoothStep to achieve a smoother transition
-            float volume = Mathf.SmoothStep(0.3f, 1f, distanceRatio);
+            float volume = Mathf.SmoothStep(0.6f, 0.1f, distanceRatio);
             directer.volume = volume;
         }
         // Pitch changes based on change in Z
@@ -683,62 +768,459 @@ public class TraceFeedback : MonoBehaviour
             float distanceRatio = Mathf.InverseLerp(otherPointZ - maxDistanceZ, otherPointZ, tipPenLocalPosition.z);
 
             // Use SmoothStep to achieve a smoother transition
-            float pitch = Mathf.SmoothStep(3f, 1.5f, distanceRatio);
+            float pitch = Mathf.SmoothStep(3f, 2.5f, distanceRatio);
             directer.pitch = pitch;
         }
         else if (otherPointZ < tipPenLocalPosition.z)
         {
             // Calculate the distance ratio from tipPen to the topmost position
-            float distanceRatio = Mathf.InverseLerp(otherPointZ +maxDistanceZ, otherPointZ, tipPenLocalPosition.z);
+            float distanceRatio = Mathf.InverseLerp(otherPointZ + maxDistanceZ, otherPointZ, tipPenLocalPosition.z);
 
             // Use SmoothStep to achieve a smoother transition
-            float pitch = Mathf.SmoothStep(1.5f, 3f, distanceRatio);
+            float pitch = Mathf.SmoothStep(2f, 1.5f, distanceRatio);
             directer.pitch = pitch;
         }
-        directer.Play();
+        //directer.Play();
     }
 
-     public void checkTime()
-     { 
-        //Debug.Log("Hi");
-        accumulateTime += fixedTimer;
-        if(startPoint0Reached == true)
+    /*private void Sonification1(float otherPointX, float otherPointZ, Vector3 tipPenLocalPosition, Vector3 start, Vector3 end)
+    {
+        float maxDistanceX = 0.1f;
+        float maxDistanceZ = 0.1f;
+        if(lineVector.isVertical)
         {
-           
-            if(endPoint0Reached == true && startPoint1Reached == false)
+            float threshold = 0.025f;
+            float top;
+            float bottom;
+            if(start.z > end.z)
             {
-                accumulateTime = 0;
+                top = start.z;
+                bottom = end.z;
+            }
+            else
+            {
+                top = end.z;
+                bottom = start.z;
+            }
+            if(tipPenLocalPosition.z > bottom && tipPenLocalPosition.z < top)
+            {
+                if(tipPenLocalPosition.x < otherPointX - threshold)
+                {
+                    float distanceRatio = Mathf.InverseLerp(otherPointX - maxDistanceX, otherPointX, tipPenLocalPosition.x);
+                    // Use SmoothStep to achieve a smoother transition
+                    float volume = Mathf.SmoothStep(1f, 0.5f, distanceRatio);
+                    float pitch = 1f;
+                    directer.pitch = pitch;
+                    directer.volume = volume;
+                }
+                else if(tipPenLocalPosition.x > otherPointX + threshold)
+                {
+                    float distanceRatio = Mathf.InverseLerp(otherPointX + maxDistanceX, otherPointX, tipPenLocalPosition.x);
+                    // Use SmoothStep to achieve a smoother transition
+                    float volume = Mathf.SmoothStep(1f, 0.5f, distanceRatio);
+                    float pitch = 1f;
+                    directer.pitch = pitch;
+                    directer.volume = volume;
+                }
+                else
+                {
+                    float volume = 0.3f;
+                    float pitch = 1f;
+                    directer.pitch = pitch;
+                    directer.volume = volume;
+                }
+            }
+            if(tipPenLocalPosition.z < bottom || tipPenLocalPosition.z > top)
+            {
+                float distanceRatio = Mathf.InverseLerp(otherPointZ + maxDistanceZ, otherPointZ, tipPenLocalPosition.z);
+                float pitch = Mathf.SmoothStep(3f, 1.7f, distanceRatio);
+                directer.pitch = pitch;
+                float volume = 0.3f;
+                directer.volume = volume;
             }
         }
-        if(startPoint1Reached == true)
+        if(lineVector.isHorizontal || lineVector.isDiagonal)
         {
-            //accumulateTime += fixedTimer;
-            if(endPoint1Reached == true && startPoint2Reached == false)
+            float threshold = 0.025f;
+            float left;
+            float right;
+            if(start.x > end.x)
             {
-                accumulateTime = 0;
+                right = start.x;
+                left = end.x;
+            }
+            else
+            {
+                right = end.x;
+                left = start.x;
+            }
+            if(tipPenLocalPosition.x > left && tipPenLocalPosition.x < right)
+            {
+                if(tipPenLocalPosition.z < otherPointZ - threshold)
+                {
+                    float distanceRatio = Mathf.InverseLerp(otherPointZ - maxDistanceZ, otherPointZ, tipPenLocalPosition.z);
+                    float pitch = Mathf.SmoothStep(3f, 1.5f, distanceRatio);
+                    float volume = 0.3f;
+                    directer.pitch = pitch;
+                    directer.volume = volume;
+                }
+                else if(tipPenLocalPosition.z > otherPointZ + threshold)
+                {
+                    float distanceRatio = Mathf.InverseLerp(otherPointZ + maxDistanceZ, otherPointZ, tipPenLocalPosition.z);
+                    float pitch = Mathf.SmoothStep(3f, 1.5f, distanceRatio);
+                    float volume = 0.3f;
+                    directer.pitch = pitch;
+                    directer.volume = volume;
+                }
+                else
+                {
+                    float volume = 0.3f;
+                    float pitch = 1f;
+                    directer.pitch = pitch;
+                    directer.volume = volume;
+                }
+            }
+            if(tipPenLocalPosition.x < left || tipPenLocalPosition.x > right)
+            {
+                float distanceRatio = Mathf.InverseLerp(otherPointX + maxDistanceX, otherPointX, tipPenLocalPosition.x);
+                float volume = Mathf.SmoothStep(1f, 0.5f, distanceRatio);
+                float pitch = 1f;
+                directer.pitch = pitch;
+                directer.volume = volume;
             }
         }
-        if(startPoint2Reached == true)
-        {
-            accumulateTime += fixedTimer;
-            if(endPoint2Reached == true && startPoint3Reached == false)
-            {
-                accumulateTime = 0;
-            }
-        }
-        if(startPoint3Reached == true)
-        {
-            accumulateTime += fixedTimer;
-            if(endPoint3Reached == true)
-            {
-                accumulateTime = 0;
-            }
-        }
-        
 
-     }
+    //Curve open to right
+        if(lineVector.isCurved && lineVector.openRight)
+        {
+            float threshold = 0.035f;
+            float top;
+            float bottom;
+            if(start.z > end.z)
+            {
+                top = start.z;
+                bottom = end.z;
+            }
+            else
+            {
+                top = end.z;
+                bottom = start.z;
+            }
+            //Between Start and End Z
+            if(tipPenLocalPosition.z > bottom && tipPenLocalPosition.z < top)
+            {
+                //Outside threshold X
+                if(tipPenLocalPosition.x < otherPointX - threshold)
+                {
+                    float distanceRatio = Mathf.InverseLerp(otherPointX - maxDistanceX, otherPointX, tipPenLocalPosition.x);
+                    // Use SmoothStep to achieve a smoother transition
+                    float volume = Mathf.SmoothStep(1f, 0.5f, distanceRatio);
+                    float pitch = 1f;
+                    directer.pitch = pitch;
+                    directer.volume = volume;
+                }
+                else if(tipPenLocalPosition.x > otherPointX + threshold)
+                {
+                    float distanceRatio = Mathf.InverseLerp(otherPointX + maxDistanceX, otherPointX, tipPenLocalPosition.x);
+                    // Use SmoothStep to achieve a smoother transition
+                    float volume = Mathf.SmoothStep(1f, 0.5f, distanceRatio);
+                    float pitch = 1f;
+                    directer.pitch = pitch;
+                    directer.volume = volume;
+                }
+                //Good State
+                else
+                {
+                    float volume = 0.3f;
+                    float pitch = 1f;
+                    directer.pitch = pitch;
+                    directer.volume = volume;
+                }
+            }
+            //Outside threshold Z
+            else if(tipPenLocalPosition.z < otherPointZ - threshold)
+            {
+                float distanceRatio = Mathf.InverseLerp(otherPointZ - maxDistanceZ, otherPointZ, tipPenLocalPosition.z);
+                float pitch = Mathf.SmoothStep(3f, 1.5f, distanceRatio);
+                float volume = 0.3f;
+                directer.pitch = pitch;
+                directer.volume = volume;
+            }
+            else if(tipPenLocalPosition.z > otherPointZ + threshold)
+            {
+                float distanceRatio = Mathf.InverseLerp(otherPointZ + maxDistanceZ, otherPointZ, tipPenLocalPosition.z);
+                float pitch = Mathf.SmoothStep(3f, 1.5f, distanceRatio);
+                float volume = 0.3f;
+                directer.pitch = pitch;
+                directer.volume = volume;
+            }//Good State
+            else
+            {
+                float volume = 0.3f;
+                float pitch = 1f;
+                directer.pitch = pitch;
+                directer.volume = volume;
+            }//Too far right
+            if(tipPenLocalPosition.x > start.x)
+            {
+                float distanceRatio = Mathf.InverseLerp(otherPointX + maxDistanceX, otherPointX, tipPenLocalPosition.x);
+                float volume = Mathf.SmoothStep(1f, 0.5f, distanceRatio);
+                float pitch = 1f;
+                directer.pitch = pitch;
+                directer.volume = volume;
+            }
+        }
 
-    
+    //Circle open to the left
+        if(lineVector.isCurved && lineVector.openLeft)
+        {
+            float threshold = 0.035f;
+            float top;
+            float bottom;
+            if(start.z > end.z)
+            {
+                top = start.z;
+                bottom = end.z;
+            }
+            else
+            {
+                top = end.z;
+                bottom = start.z;
+            }
+            //Between start and end Z
+            if(tipPenLocalPosition.z > bottom && tipPenLocalPosition.z < top)
+            {
+                //Outside threshold X
+                if(tipPenLocalPosition.x < otherPointX - threshold)
+                {
+                    float distanceRatio = Mathf.InverseLerp(otherPointX - maxDistanceX, otherPointX, tipPenLocalPosition.x);
+                    // Use SmoothStep to achieve a smoother transition
+                    float volume = Mathf.SmoothStep(1f, 0.5f, distanceRatio);
+                    float pitch = 1f;
+                    directer.pitch = pitch;
+                    directer.volume = volume;
+                }
+                else if(tipPenLocalPosition.x > otherPointX + threshold)
+                {
+                    float distanceRatio = Mathf.InverseLerp(otherPointX + maxDistanceX, otherPointX, tipPenLocalPosition.x);
+                    // Use SmoothStep to achieve a smoother transition
+                    float volume = Mathf.SmoothStep(1f, 0.5f, distanceRatio);
+                    float pitch = 1f;
+                    directer.pitch = pitch;
+                    directer.volume = volume;
+                }
+                //Good State
+                else
+                {
+                    float volume = 0.3f;
+                    float pitch = 1f;
+                    directer.pitch = pitch;
+                    directer.volume = volume;
+                }
+            }
+            //Outside threshold z
+            else if(tipPenLocalPosition.z < otherPointZ - threshold)
+            {
+                float distanceRatio = Mathf.InverseLerp(otherPointZ - maxDistanceZ, otherPointZ, tipPenLocalPosition.z);
+                float pitch = Mathf.SmoothStep(3f, 1.5f, distanceRatio);
+                float volume = 0.3f;
+                directer.pitch = pitch;
+                directer.volume = volume;
+            }
+            else if(tipPenLocalPosition.z > otherPointZ + threshold)
+            {
+                float distanceRatio = Mathf.InverseLerp(otherPointZ + maxDistanceZ, otherPointZ, tipPenLocalPosition.z);
+                float pitch = Mathf.SmoothStep(3f, 1.5f, distanceRatio);
+                float volume = 0.3f;
+                directer.pitch = pitch;
+                directer.volume = volume;
+            }
+            //Good State
+            else
+            {
+                float volume = 0.3f;
+                float pitch = 1f;
+                directer.pitch = pitch;
+                directer.volume = volume;
+            }
+            //Too far left
+            if(tipPenLocalPosition.x < start.x)
+            {
+                float distanceRatio = Mathf.InverseLerp(otherPointX - maxDistanceX, otherPointX, tipPenLocalPosition.x);
+                float volume = Mathf.SmoothStep(1f, 0.5f, distanceRatio);
+                float pitch = 1f;
+                directer.pitch = pitch;
+                directer.volume = volume;
+            }
+        }
+
+
+    //Circle open downwards
+        if(lineVector.isCurved && lineVector.openDown)
+        {
+            float threshold = 0.035f;
+            float left;
+            float right;
+            if(start.x > end.x)
+            {
+                right = start.x;
+                left = end.x;
+            }
+            else
+            {
+                right = end.x;
+                left = start.z;
+            }
+            //Between start and end X
+            if(tipPenLocalPosition.x > left + threshold && tipPenLocalPosition.x < right - threshold)
+            {
+                //Outside threshold Z
+                if(tipPenLocalPosition.z < otherPointZ - threshold)
+                {
+                    float distanceRatio = Mathf.InverseLerp(otherPointZ - maxDistanceZ, otherPointZ, tipPenLocalPosition.z);
+                    float pitch = Mathf.SmoothStep(3f, 1.5f, distanceRatio);
+                    float volume = 0.3f;
+                    directer.pitch = pitch;
+                    directer.volume = volume;
+                }
+                else if(tipPenLocalPosition.z > otherPointZ + threshold)
+                {
+                    float distanceRatio = Mathf.InverseLerp(otherPointZ + maxDistanceZ, otherPointZ, tipPenLocalPosition.z);
+                    float pitch = Mathf.SmoothStep(3f, 1.5f, distanceRatio);
+                    float volume = 0.3f;
+                    directer.pitch = pitch;
+                    directer.volume = volume;
+                }
+                //Good State
+                else
+                {
+                    float volume = 0.3f;
+                    float pitch = 1f;
+                    directer.pitch = pitch;
+                    directer.volume = volume;
+                }
+            }
+            //Outside threshold x
+            else if(tipPenLocalPosition.x < otherPointX - threshold)
+            {
+                float distanceRatio = Mathf.InverseLerp(otherPointX - maxDistanceX, otherPointX, tipPenLocalPosition.x);
+                float volume = Mathf.SmoothStep(1f, 0.5f, distanceRatio);
+                float pitch = 1f;
+                directer.pitch = pitch;
+                directer.volume = volume;
+            }
+            else if(tipPenLocalPosition.x > otherPointX + threshold)
+            {
+                float distanceRatio = Mathf.InverseLerp(otherPointX + maxDistanceX, otherPointX, tipPenLocalPosition.x);
+                float volume = Mathf.SmoothStep(1f, 0.5f, distanceRatio);
+                float pitch = 1f;
+                directer.pitch = pitch;
+                directer.volume = volume;
+            }
+            //Good State
+            else
+            {
+                float volume = 0.3f;
+                float pitch = 1f;
+                directer.pitch = pitch;
+                directer.volume = volume;
+            }
+            //Too far Down
+            if(tipPenLocalPosition.z < start.z)
+            {
+                float distanceRatio = Mathf.InverseLerp(otherPointZ - maxDistanceZ, otherPointZ, tipPenLocalPosition.z);
+                float pitch = Mathf.SmoothStep(3f, 1.5f, distanceRatio);
+                float volume = 0.3f;
+                directer.pitch = pitch;
+                directer.volume = volume;
+            }
+        }
+
+        //Circle open upwards
+        if(lineVector.isCurved && lineVector.openUp)
+        {
+            float threshold = 0.035f;
+            float left;
+            float right;
+            if(start.x > end.x)
+            {
+                right = start.x;
+                left = end.x;
+            }
+            else
+            {
+                right = end.x;
+                left = start.z;
+            }
+            //Between start and end X
+            if(tipPenLocalPosition.x > left + threshold && tipPenLocalPosition.x < right - threshold)
+            {
+                //Outside threshold Z
+                if(tipPenLocalPosition.z < otherPointZ - threshold)
+                {
+                    float distanceRatio = Mathf.InverseLerp(otherPointZ - maxDistanceZ, otherPointZ, tipPenLocalPosition.z);
+                    float pitch = Mathf.SmoothStep(3f, 1.5f, distanceRatio);
+                    float volume = 0.3f;
+                    directer.pitch = pitch;
+                    directer.volume = volume;
+                }
+                else if(tipPenLocalPosition.z > otherPointZ + threshold)
+                {
+                    float distanceRatio = Mathf.InverseLerp(otherPointZ + maxDistanceZ, otherPointZ, tipPenLocalPosition.z);
+                    float pitch = Mathf.SmoothStep(3f, 1.5f, distanceRatio);
+                    float volume = 0.3f;
+                    directer.pitch = pitch;
+                    directer.volume = volume;
+                }
+                //Good State
+                else
+                {
+                    float volume = 0.3f;
+                    float pitch = 1f;
+                    directer.pitch = pitch;
+                    directer.volume = volume;
+                }
+            }
+            //Outside threshold x
+            else if(tipPenLocalPosition.x < otherPointX - threshold)
+            {
+                float distanceRatio = Mathf.InverseLerp(otherPointX - maxDistanceX, otherPointX, tipPenLocalPosition.x);
+                float volume = Mathf.SmoothStep(1f, 0.5f, distanceRatio);
+                float pitch = 1f;
+                directer.pitch = pitch;
+                directer.volume = volume;
+            }
+            else if(tipPenLocalPosition.x > otherPointX + threshold)
+            {
+                float distanceRatio = Mathf.InverseLerp(otherPointX + maxDistanceX, otherPointX, tipPenLocalPosition.x);
+                float volume = Mathf.SmoothStep(1f, 0.5f, distanceRatio);
+                float pitch = 1f;
+                directer.pitch = pitch;
+                directer.volume = volume;
+            }
+            //Good State
+            else
+            {
+                float volume = 0.3f;
+                float pitch = 1f;
+                directer.pitch = pitch;
+                directer.volume = volume;
+            }
+            //Too far Up
+            if(tipPenLocalPosition.z > start.z)
+            {
+                float distanceRatio = Mathf.InverseLerp(otherPointZ + maxDistanceZ, otherPointZ, tipPenLocalPosition.z);
+                float pitch = Mathf.SmoothStep(3f, 1.5f, distanceRatio);
+                float volume = 0.3f;
+                directer.pitch = pitch;
+                directer.volume = volume;
+            }
+        }
+
+
+
+
+    }*/
 
     public void letterStroke()
     {
@@ -1042,6 +1524,64 @@ public class TraceFeedback : MonoBehaviour
         {
             straightRight.Play();
         }
+
+        if(letterArray == alphabet[53] && lineVector.Equals(letterArray[0]))
+        {
+            straightUp.Play();
+        }
+        if(letterArray == alphabet[55] && lineVector.Equals(letterArray[0]))
+        {
+            straightDown.Play();
+        }
+        if(letterArray == alphabet[57] && lineVector.Equals(letterArray[0]))
+        {
+            straightLeft.Play();
+        }
+        if(letterArray == alphabet[59] && lineVector.Equals(letterArray[0]))
+        {
+            straightRight.Play();
+        }
+        if(letterArray == alphabet[61] && lineVector.Equals(letterArray[0]))
+        {
+            straightDownRight.Play();
+        }
+        if(letterArray == alphabet[63] && lineVector.Equals(letterArray[0]))
+        {
+            straightDownLeft.Play();
+        }
+        if(letterArray == alphabet[65] && lineVector.Equals(letterArray[0]))
+        {
+            straightUpRight.Play();
+        }
+        if(letterArray == alphabet[67] && lineVector.Equals(letterArray[0]))
+        {
+            circleUpLeft.Play();
+        }
+        if(letterArray == alphabet[69] && lineVector.Equals(letterArray[0]))
+        {
+            circleUpRight.Play();
+        }
+        if(letterArray == alphabet[71] && lineVector.Equals(letterArray[0]))
+        {
+            circleDownRight.Play();
+        }
+        if(letterArray == alphabet[73] && lineVector.Equals(letterArray[0]))
+        {
+            circleLeftUp.Play();
+        }
+        if(letterArray == alphabet[75] && lineVector.Equals(letterArray[0]))
+        {
+            circleLeftDown.Play();
+        }
+        if(letterArray == alphabet[77] && lineVector.Equals(letterArray[0]))
+        {
+            circleRightUp.Play();
+        }
+        if(letterArray == alphabet[79] && lineVector.Equals(letterArray[0]))
+        {
+            circleRightDown.Play();
+        }
+
     }
     public override bool Equals(object obj)
     {
@@ -1054,27 +1594,49 @@ public class TraceFeedback : MonoBehaviour
         return true;
     }
 
-    IEnumerator PlayLetterStrokeAudioWithDelay(float delayTime)
+    IEnumerator PlayLetterStrokeAudioWithDelay(int corrections)
     {
-        yield return new WaitForSeconds(delayTime); // Delay before playing the audio
+        yield return new WaitForSeconds(corrections * 3); // Delay before playing the audio
 
-        // Play the audio associated with letterStroke()
-        // Assuming letterStrokeAudio is an AudioSource
+  
         letterStroke();
         
-        // Other actions within this coroutine after playing the audio, if any
+        
     }   
 
-    IEnumerator PlayLetterCompletedAudioWithDelay(float delayTime)
+    IEnumerator PlayLetterCompletedAudioWithDelay(int corrections)
     {
-        yield return new WaitForSeconds(delayTime); // Delay before playing the audio
+        yield return new WaitForSeconds(corrections * 3); // Delay before playing the audio
 
-        // Play the audio associated with letterStroke()
-        // Assuming letterStrokeAudio is an AudioSource
+        
         letterCompleted.Play();
         
-        // Other actions within this coroutine after playing the audio, if any
     }   
+
+    IEnumerator PlayPickUpAudioWithDelay(int corrections)
+    {
+        yield return new WaitForSeconds(corrections * 3);
+        pickUp.Play();
+    }
+
+    IEnumerator PlaySonificationWithDelay(int corrections, float furtherPointX, float furtherPointZ, Vector3 tipPenLocalPosition, Vector3 start, Vector3 end)
+    {
+        yield return new WaitForSeconds(corrections * 3 + 1); // Delay before playing the audio
+        if(!directer.isPlaying)
+        {
+            if(isDone == false)
+            {
+                directer.Play();
+            }
+            
+        }
+        Sonification(furtherPointX, furtherPointZ, tipPenLocalPosition);
+        //Sonification1(furtherPointX, furtherPointZ, tipPenLocalPosition, start, end);
+
+    }   
+
+    
+    
 
 
 }

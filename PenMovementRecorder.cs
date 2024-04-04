@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using System;
 
 public class PenMovementRecorder : MonoBehaviour
 {
-    public Transform penTip; // Reference to the pen tip object
+    public Transform penTip; 
 
-    private bool isRecording = false;
+    public bool isRecording = false;
     private List<Vector2Int> penPositions = new List<Vector2Int>();
     public Texture2D drawnTexture;
     private int textureWidth = 128;
@@ -15,22 +16,25 @@ public class PenMovementRecorder : MonoBehaviour
 
     public Vector3 tipPenLocalPosition;
     private TemplateMatching templateMatcher;
+    private TraceFeedback trace;
+    public Starter start;
 
     private void Start()
     {
+        start = FindObjectOfType<Starter>();
+
         templateMatcher = FindObjectOfType<TemplateMatching>();
-        // Initialize the texture with a size of 28x28
+        trace = FindObjectOfType<TraceFeedback>();
         drawnTexture = new Texture2D(textureWidth, textureHeight);
         ClearTexture();
     }
 
     private void Update()
     {
-        // Record the pen's position if recording is active
         if (isRecording)
         {
             tipPenLocalPosition = transform.InverseTransformPoint(penTip.transform.position);
-            Vector2 penPos = new Vector2(tipPenLocalPosition.x, tipPenLocalPosition.z);
+            Vector2 penPos = new Vector2(tipPenLocalPosition.x - start.biasX, tipPenLocalPosition.z - start.biasZ);
             //Debug.Log("penPos" + penPos);
             Vector2Int pixelPos = WorldToTextureCoordinate(penPos);
             //Debug.Log("pixelPos" + pixelPos);
@@ -52,28 +56,36 @@ public class PenMovementRecorder : MonoBehaviour
 
     public void StopRecording()
     {
+        trace.directer.Stop();
         isRecording = false;
         GenerateAndSaveImage();
     }
 
     public void GenerateAndSaveImage()
+{
+    ConvertToImage();
+    templateMatcher.Match();
+    
+    // Save the generated image as a PNG file with a timestamp
+    byte[] bytes = drawnTexture.EncodeToPNG();
+    string folderPath = Application.persistentDataPath + "/GeneratedImages/";
+
+    // Check if the folder exists, if not, create it
+    if (!Directory.Exists(folderPath))
     {
-        ConvertToImage();
-        templateMatcher.Match();
-        // Save the generated image as a PNG file
-        byte[] bytes = drawnTexture.EncodeToPNG();
-        string folderPath = Application.persistentDataPath + "/GeneratedImages/"; // Create a folder path
-        string filePath = folderPath + "GeneratedImage.png"; // Define the file path
+        Directory.CreateDirectory(folderPath);
+    }
 
-        // Check if the folder exists, if not, create it
-        if (!Directory.Exists(folderPath))
-        {
-            Directory.CreateDirectory(folderPath);
-        }
+    // Append a timestamp to the filename to make it unique
+    string timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+    string fileName = "GeneratedImage_" + timestamp + ".png";
 
-        // Write the PNG file to the defined path
-        System.IO.File.WriteAllBytes(filePath, bytes);
-        Debug.Log("Image saved to: " + filePath);
+    // Define the complete file path
+    string filePath = Path.Combine(folderPath, fileName);
+
+    // Write the PNG file to the defined path
+    System.IO.File.WriteAllBytes(filePath, bytes);
+    Debug.Log("Image saved to: " + filePath);
 }
 
     private void ConvertToImage()

@@ -9,7 +9,7 @@ public class TemplateMatching : MonoBehaviour
     public TraceFeedback trace;
     public LineVector currentStroke;
     public LineVector lineVector;
-    private PenMovementRecorder penRecorder; // Reference to PenMovementRecorder script
+    private PenMovementRecorder penRecorder;
     private letter_rotator letter;
 
     public AudioSource wideRight;
@@ -30,6 +30,8 @@ public class TemplateMatching : MonoBehaviour
     public float grayscaleThreshold = 0.6f; // Threshold to differentiate between black and white
     public int pixelThreshold = 100; // Threshold for pixel proximity
     public int proxThreshold = 5;
+
+    public List<AudioSource> corrections;
     
 
    public void Match()
@@ -46,20 +48,22 @@ public class TemplateMatching : MonoBehaviour
         {
             Debug.Log("no input");
         }
-        Debug.Log(templateImage.width);
+        /*Debug.Log(templateImage.width);
         Debug.Log(inputImage.width);
         Debug.Log(templateImage.height);
-        Debug.Log(inputImage.height);
+        Debug.Log(inputImage.height);*/
 
         if (templateImage.width != inputImage.width || templateImage.height != inputImage.height)
         {
             Debug.LogError("Template and input images have different dimensions.");
+            Debug.Log(templateImage.width);
+            Debug.Log(inputImage.width);
             return;
         }
         // Convert texture data to arrays
         Color[] templatePixels = templateImage.GetPixels();
         Color[] inputPixels = inputImage.GetPixels();
-        List<AudioSource> corrections = new List<AudioSource>();
+        corrections = new List<AudioSource>();
         if(currentStroke.isCurved == false)
         {
              // Convert pixels to grayscale arrays
@@ -79,8 +83,8 @@ public class TemplateMatching : MonoBehaviour
                     int pixelIndex = y * templateWidth + x;
                     rowIndices.Add(pixelIndex);
 
-                    templateGrayscale[pixelIndex] = templatePixels[pixelIndex].grayscale; // Convert to grayscale
-                    inputGrayscale[pixelIndex] = inputPixels[pixelIndex].grayscale; // Convert to grayscale
+                    templateGrayscale[pixelIndex] = templatePixels[pixelIndex].grayscale; 
+                    inputGrayscale[pixelIndex] = inputPixels[pixelIndex].grayscale; 
                 }
                 templateRowPixelIndices.Add(rowIndices);
             }
@@ -96,8 +100,8 @@ public class TemplateMatching : MonoBehaviour
                     int pixelIndex = y * templateWidth + x;
                     columnIndices.Add(pixelIndex);
 
-                    templateGrayscale[pixelIndex] = templatePixels[pixelIndex].grayscale; // Convert to grayscale
-                    inputGrayscale[pixelIndex] = inputPixels[pixelIndex].grayscale; // Convert to grayscale
+                    templateGrayscale[pixelIndex] = templatePixels[pixelIndex].grayscale; 
+                    inputGrayscale[pixelIndex] = inputPixels[pixelIndex].grayscale; 
                 }
                 templateColumnPixelIndices.Add(columnIndices);
             }
@@ -106,7 +110,7 @@ public class TemplateMatching : MonoBehaviour
                 bool leftExceedThreshold = false;
                 bool rightExceedThreshold = false;
 
-                // Iterate through each row of the template to find matching pixels in the input
+                
                 foreach (var rowIndices in templateRowPixelIndices)
                 {
                     for (int i = 0; i < rowIndices.Count; i++)
@@ -387,7 +391,7 @@ public class TemplateMatching : MonoBehaviour
         foreach (var audio in audioList)
         {
             audio.Play();
-            yield return new WaitForSeconds(3.0f); // Adjust this delay time as needed (e.g., 1 second)
+            yield return new WaitForSeconds(3.0f); 
         }
     }
 
@@ -822,6 +826,105 @@ public class TemplateMatching : MonoBehaviour
                 templateImage = Resources.Load<Texture2D>("Templates/lowZ2");
             }
         }
+        if (letter.i == 53)
+        {
+            if(trace.stroke == 0)
+            {
+                templateImage = Resources.Load<Texture2D>("Templates/vlup");
+            }
+        }
+        if (letter.i == 55)
+        {
+            if(trace.stroke == 0)
+            {
+                templateImage = Resources.Load<Texture2D>("Templates/vldown");
+            }
+        }
+        if (letter.i == 57)
+        {
+            if(trace.stroke == 0)
+            {
+                templateImage = Resources.Load<Texture2D>("Templates/hlleft");
+            }
+        }
+        if (letter.i == 59)
+        {
+            if(trace.stroke == 0)
+            {
+                templateImage = Resources.Load<Texture2D>("Templates/hlright");
+            }
+        }
+        if (letter.i == 61)
+        {
+            if(trace.stroke == 0)
+            {
+                templateImage = Resources.Load<Texture2D>("Templates/dltlbr");
+            }
+        }
+        if (letter.i == 63)
+        {
+            if(trace.stroke == 0)
+            {
+                templateImage = Resources.Load<Texture2D>("Templates/dltrbl");
+            }
+        }
+        if (letter.i == 65)
+        {
+            if(trace.stroke == 0)
+            {
+                templateImage = Resources.Load<Texture2D>("Templates/dlbltr");
+            }
+        }
+        if (letter.i == 67)
+        {
+            if(trace.stroke == 0)
+            {
+                templateImage = Resources.Load<Texture2D>("Templates/sctl");
+            }
+        }
+        if (letter.i == 69)
+        {
+            if(trace.stroke == 0)
+            {
+                templateImage = Resources.Load<Texture2D>("Templates/sctr");
+            }
+        }
+        if (letter.i == 71)
+        {
+            if(trace.stroke == 0)
+            {
+                templateImage = Resources.Load<Texture2D>("Templates/scbr");
+            }
+        }
+        if (letter.i == 73)
+        {
+            if(trace.stroke == 0)
+            {
+                templateImage = Resources.Load<Texture2D>("Templates/sclup");
+            }
+        }
+        if (letter.i == 75)
+        {
+            if(trace.stroke == 0)
+            {
+                templateImage = Resources.Load<Texture2D>("Templates/scldown");
+            }
+        }
+        if (letter.i == 77)
+        {
+            if(trace.stroke == 0)
+            {
+                templateImage = Resources.Load<Texture2D>("Templates/scrup");
+            }
+        }
+        if (letter.i == 79)
+        {
+            if(trace.stroke == 0)
+            {
+                templateImage = Resources.Load<Texture2D>("Templates/scrdown");
+            }
+        }
+        
     }   
 
 }

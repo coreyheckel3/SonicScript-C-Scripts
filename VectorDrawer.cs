@@ -1,17 +1,19 @@
+/*//USED TO DEBUG AND VIEW VECTORS 
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class VectorDrawer : MonoBehaviour
 {
     public Material lineMaterial;
-    private LineVector[] lowA;
+    private LineVector[] lowF;
     private LineVector[][] alphabet;
     public Vector3 offset;
 
     private void Start()
     {
-        lowA = LineVector.GetLowA();
+        lowF = LineVector.GetLowF();
     }
 
    private void OnRenderObject()
@@ -30,7 +32,7 @@ public class VectorDrawer : MonoBehaviour
         GL.Begin(GL.LINES);
         GL.Color(Color.white);
 
-        foreach (LineVector lineVector in lowA)
+        foreach (LineVector lineVector in lowF)
         {
             if (lineVector.isCurved)
             {
@@ -97,4 +99,4 @@ public class VectorDrawer : MonoBehaviour
 
         return point;
     }
-}
+}*/

@@ -26,7 +26,7 @@ public class StrokeAudio : MonoBehaviour
     public AudioSource penNotDetected;
 
     private AudioSource[] strokes;
-    // Start is called before the first frame update
+    
     void Start()
     {
         strokes = new AudioSource[16];

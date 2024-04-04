@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,26 +6,26 @@ public class LetterTemplates : MonoBehaviour
 {
     public LineVector lineVector;
 
-    public static List<Vector3> GetLowAInterpolatedCoordinates()
+    public static List<Vector3> GetLowFInterpolatedCoordinates()
     {
-        LineVector[] lowA = LineVector.GetLowA(); // Accessing points from LineVector
+        LineVector[] lowF = LineVector.GetLowF(); // Accessing points from LineVector
 
-        List<Vector3> lowAPoints = new List<Vector3>();
+        List<Vector3> lowFPoints = new List<Vector3>();
 
-        lowAPoints.Add(lowA[0].startPoint);
-        lowAPoints.Add(lowA[0].endPoint);
-        lowAPoints.Add(lowA[1].startPoint);
-        lowAPoints.Add(lowA[1].endPoint);
+
+        lowFPoints.Add(lowF[1].startPoint);
+        lowFPoints.Add(lowF[1].endPoint);
+        lowFPoints.Add(lowF[1].controlPoint);
+        lowFPoints.Add(lowF[1].controlPoint2);
 
         int segments = 1000;
 
-        List<Vector3> curve1Points = GetInterpolatedPoints(lowA[0].startPoint, lowA[0].endPoint, segments);
-        List<Vector3> curve2Points = GetInterpolatedPoints(lowA[1].startPoint, lowA[1].endPoint, lowA[1].controlPoint, lowA[1].controlPoint2, segments);
+        List<Vector3> curve2Points = GetInterpolatedPoints(lowF[1].startPoint, lowF[1].endPoint, lowF[1].controlPoint, lowF[1].controlPoint2, segments);
 
-        lowAPoints.AddRange(curve1Points);
-        lowAPoints.AddRange(curve2Points);
+ 
+        lowFPoints.AddRange(curve2Points);
 
-        return lowAPoints;
+        return lowFPoints;
     }
 
        private static List<Vector3> GetInterpolatedPoints(Vector3 start, Vector3 end, int segments = 30)
@@ -72,4 +72,4 @@ public class LetterTemplates : MonoBehaviour
 
         return point;
     }
-}
+}*/

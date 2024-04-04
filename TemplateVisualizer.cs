@@ -1,4 +1,4 @@
-using System.Collections;
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +19,7 @@ public class TemplateVisualizer : MonoBehaviour
 
    private void GenerateAndSaveTemplate()
 {
-    List<Vector3> interpolatedPoints = LetterTemplates.GetLowAInterpolatedCoordinates();
+    List<Vector3> interpolatedPoints = LetterTemplates.GetLowFInterpolatedCoordinates();
 
     foreach (Vector3 point in interpolatedPoints)
     {
@@ -63,4 +63,4 @@ private void DrawToTexture(Vector3 point)
 
         return new Vector2Int(pixelX, pixelY);
     }
-}
+}*/
