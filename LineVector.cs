@@ -695,7 +695,7 @@ public struct LineVector
         LineVector[] vlup = new LineVector[1];
 
         Vector3 startPoint0 = new Vector3(0f,0f, 0);
-        Vector3 endPoint0 = new Vector3(0f,0f, 0.2f);
+        Vector3 endPoint0 = new Vector3(0f,0f, 0.3f);
 
         vlup[0].SetLineVector(startPoint0, endPoint0);
         
@@ -709,7 +709,7 @@ public struct LineVector
         LineVector[] vldown = new LineVector[1];
 
         Vector3 startPoint0 = new Vector3(0f,0f, 0);
-        Vector3 endPoint0 = new Vector3(0f,0f, -0.2f);
+        Vector3 endPoint0 = new Vector3(0f,0f, -0.3f);
 
         vldown[0].SetLineVector(startPoint0, endPoint0);
         
@@ -723,7 +723,7 @@ public struct LineVector
         LineVector[] hlleft = new LineVector[1];
 
         Vector3 startPoint0 = new Vector3(0f,0f, 0);
-        Vector3 endPoint0 = new Vector3(-0.2f,0f, 0f);
+        Vector3 endPoint0 = new Vector3(-0.3f,0f, 0f);
 
         hlleft[0].SetLineVector(startPoint0, endPoint0);
         
@@ -737,7 +737,7 @@ public struct LineVector
         LineVector[] hlright = new LineVector[1];
 
         Vector3 startPoint0 = new Vector3(0f,0f, 0);
-        Vector3 endPoint0 = new Vector3(0.2f,0f, 0f);
+        Vector3 endPoint0 = new Vector3(0.3f,0f, 0f);
 
         hlright[0].SetLineVector(startPoint0, endPoint0);
         
@@ -751,7 +751,7 @@ public struct LineVector
         LineVector[] dltlbr = new LineVector[1];
 
         Vector3 startPoint0 = new Vector3(0f,0f, 0);
-        Vector3 endPoint0 = new Vector3(0.2f,0f, -0.2f);
+        Vector3 endPoint0 = new Vector3(0.3f,0f, -0.3f);
 
         dltlbr[0].SetLineVector(startPoint0, endPoint0);
         
@@ -765,7 +765,7 @@ public struct LineVector
         LineVector[] dltrbl = new LineVector[1];
 
         Vector3 startPoint0 = new Vector3(0f,0f, 0);
-        Vector3 endPoint0 = new Vector3(-0.2f,0f, -0.2f);
+        Vector3 endPoint0 = new Vector3(-0.3f,0f, -0.3f);
 
         dltrbl[0].SetLineVector(startPoint0, endPoint0);
         
@@ -779,7 +779,7 @@ public struct LineVector
         LineVector[] dlbrtl = new LineVector[1];
 
         Vector3 startPoint0 = new Vector3(0f,0f, 0);
-        Vector3 endPoint0 = new Vector3(-0.2f,0f, 0.2f);
+        Vector3 endPoint0 = new Vector3(-0.3f,0f, 0.3f);
 
         dlbrtl[0].SetLineVector(startPoint0, endPoint0);
         
@@ -793,7 +793,7 @@ public struct LineVector
         LineVector[] dlbltr = new LineVector[1];
 
         Vector3 startPoint0 = new Vector3(0f,0f, 0);
-        Vector3 endPoint0 = new Vector3(0.2f,0f, 0.2f);
+        Vector3 endPoint0 = new Vector3(0.3f,0f, 0.3f);
 
         dlbltr[0].SetLineVector(startPoint0, endPoint0);
         
@@ -807,9 +807,9 @@ public struct LineVector
         LineVector[] sctl = new LineVector[1];
 
         Vector3 startPoint0 = new Vector3(0f,0f, 0f);
-        Vector3 endPoint0 = new Vector3(-0.2f,0f, 0f);
-        Vector3 controlPoint0 = new Vector3(0f,0f, 0.2f);
-        Vector3 controlPoint01 = new Vector3(-0.2f,0f, 0.2f);
+        Vector3 endPoint0 = new Vector3(-0.3f,0f, 0f);
+        Vector3 controlPoint0 = new Vector3(0f,0f, 0.3f);
+        Vector3 controlPoint01 = new Vector3(-0.3f,0f, 0.3f);
 
         sctl[0].SetLineVector(startPoint0, endPoint0, controlPoint0, controlPoint01);
         sctl[0].isCurved = true;
@@ -823,9 +823,9 @@ public struct LineVector
         LineVector[] sctr = new LineVector[1];
 
         Vector3 startPoint0 = new Vector3(0f,0f, 0f);
-        Vector3 endPoint0 = new Vector3(0.2f,0f, 0f);
-        Vector3 controlPoint0 = new Vector3(0f,0f, 0.2f);
-        Vector3 controlPoint01 = new Vector3(0.2f,0f, 0.2f);
+        Vector3 endPoint0 = new Vector3(0.3f,0f, 0f);
+        Vector3 controlPoint0 = new Vector3(0f,0f, 0.3f);
+        Vector3 controlPoint01 = new Vector3(0.3f,0f, 0.3f);
 
         sctr[0].SetLineVector(startPoint0, endPoint0, controlPoint0, controlPoint01);
         sctr[0].isCurved = true;
@@ -839,9 +839,9 @@ public struct LineVector
         LineVector[] scbl = new LineVector[1];
 
         Vector3 startPoint0 = new Vector3(0f,0f, 0f);
-        Vector3 endPoint0 = new Vector3(-0.2f,0f, 0f);
-        Vector3 controlPoint0 = new Vector3(0f,0f, -0.2f);
-        Vector3 controlPoint01 = new Vector3(-0.2f,0f, -0.2f);
+        Vector3 endPoint0 = new Vector3(-0.3f,0f, 0f);
+        Vector3 controlPoint0 = new Vector3(0f,0f, -0.3f);
+        Vector3 controlPoint01 = new Vector3(-0.3f,0f, -0.3f);
 
         scbl[0].SetLineVector(startPoint0, endPoint0, controlPoint0, controlPoint01);
         scbl[0].isCurved = true;
@@ -855,9 +855,9 @@ public struct LineVector
         LineVector[] scbr = new LineVector[1];
 
         Vector3 startPoint0 = new Vector3(0f,0f, 0f);
-        Vector3 endPoint0 = new Vector3(0.2f,0f, 0f);
-        Vector3 controlPoint0 = new Vector3(0f,0f, -0.2f);
-        Vector3 controlPoint01 = new Vector3(0.2f,0f, -0.2f);
+        Vector3 endPoint0 = new Vector3(0.3f,0f, 0f);
+        Vector3 controlPoint0 = new Vector3(0f,0f, -0.3f);
+        Vector3 controlPoint01 = new Vector3(0.3f,0f, -0.3f);
 
         scbr[0].SetLineVector(startPoint0, endPoint0, controlPoint0, controlPoint01);
         scbr[0].isCurved = true;
@@ -871,9 +871,9 @@ public struct LineVector
         LineVector[] sclup = new LineVector[1];
 
         Vector3 startPoint0 = new Vector3(0f,0f, 0f);
-        Vector3 endPoint0 = new Vector3(0f,0f, 0.2f);
-        Vector3 controlPoint0 = new Vector3(-0.2f,0f, 0f);
-        Vector3 controlPoint01 = new Vector3(-0.2f,0f, 0.2f);
+        Vector3 endPoint0 = new Vector3(0f,0f, 0.3f);
+        Vector3 controlPoint0 = new Vector3(-0.3f,0f, 0f);
+        Vector3 controlPoint01 = new Vector3(-0.3f,0f, 0.3f);
 
         sclup[0].SetLineVector(startPoint0, endPoint0, controlPoint0, controlPoint01);
         sclup[0].isCurved = true;
@@ -887,9 +887,9 @@ public struct LineVector
         LineVector[] scldown = new LineVector[1];
 
         Vector3 startPoint0 = new Vector3(0f,0f, 0f);
-        Vector3 endPoint0 = new Vector3(0f,0f, -0.2f);
-        Vector3 controlPoint0 = new Vector3(-0.2f,0f, 0f);
-        Vector3 controlPoint01 = new Vector3(-0.2f,0f, -0.2f);
+        Vector3 endPoint0 = new Vector3(0f,0f, -0.3f);
+        Vector3 controlPoint0 = new Vector3(-0.3f,0f, 0f);
+        Vector3 controlPoint01 = new Vector3(-0.3f,0f, -0.3f);
 
         scldown[0].SetLineVector(startPoint0, endPoint0, controlPoint0, controlPoint01);
         scldown[0].isCurved = true;
@@ -903,9 +903,9 @@ public struct LineVector
         LineVector[] scrup = new LineVector[1];
 
         Vector3 startPoint0 = new Vector3(0f,0f, 0f);
-        Vector3 endPoint0 = new Vector3(0f,0f, 0.2f);
-        Vector3 controlPoint0 = new Vector3(0.2f,0f, 0f);
-        Vector3 controlPoint01 = new Vector3(0.2f,0f, 0.2f);
+        Vector3 endPoint0 = new Vector3(0f,0f, 0.3f);
+        Vector3 controlPoint0 = new Vector3(0.3f,0f, 0f);
+        Vector3 controlPoint01 = new Vector3(0.3f,0f, 0.3f);
 
         scrup[0].SetLineVector(startPoint0, endPoint0, controlPoint0, controlPoint01);
         scrup[0].isCurved = true;
@@ -919,9 +919,9 @@ public struct LineVector
         LineVector[] scrdown = new LineVector[1];
 
         Vector3 startPoint0 = new Vector3(0f,0f, 0f);
-        Vector3 endPoint0 = new Vector3(0f,0f, -0.2f);
-        Vector3 controlPoint0 = new Vector3(0.2f,0f, 0f);
-        Vector3 controlPoint01 = new Vector3(0.2f,0f, -0.2f);
+        Vector3 endPoint0 = new Vector3(0f,0f, -0.3f);
+        Vector3 controlPoint0 = new Vector3(0.3f,0f, 0f);
+        Vector3 controlPoint01 = new Vector3(0.3f,0f, -0.3f);
 
         scrdown[0].SetLineVector(startPoint0, endPoint0, controlPoint0, controlPoint01);
         scrdown[0].isCurved = true;

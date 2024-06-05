@@ -14,6 +14,7 @@ public class TraceFeedback : MonoBehaviour
     public letter_rotator currentInt;
     public LineVector[] letterArray;
     public StrokeAudio strokeAudio;
+    public DefaultObserverEventHandler targetObserver;
 
     private TemplateMatching templateMatcher;
 
@@ -53,9 +54,6 @@ public class TraceFeedback : MonoBehaviour
 
     public bool curveReached = false;
     public bool penDown = false;
-    public int startSound = 5;
-    public float accumulateTime = 0;
-    public float fixedTimer;
     public int stroke = 0;
 
     public Vector3 furtherPoint;
@@ -106,9 +104,6 @@ public class TraceFeedback : MonoBehaviour
     public LineVector[] Scrdown = LineVector.GetScrdown();
 
     public PenMovementRecorder penMovementRecorder;
-
-    float delayBeforeLetterStrokeAudio = 5.0f;
-    float delayBeforeCompletion = 7.0f;
     public bool isDone;
     public Starter start;
 
@@ -129,7 +124,6 @@ public class TraceFeedback : MonoBehaviour
         start = FindObjectOfType<Starter>();
 
         templateMatcher = FindObjectOfType<TemplateMatching>();
-        fixedTimer = Time.fixedDeltaTime;
 
         currentInt = FindObjectOfType<letter_rotator>();
         LineVector y = new LineVector();
@@ -144,6 +138,7 @@ public class TraceFeedback : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         //Debug.Log(currentInt.i);
         if (currentInt.i != previousInt)
         {
@@ -346,6 +341,10 @@ public class TraceFeedback : MonoBehaviour
 
     public int CheckContact()
     {
+        if(startPoint0Reached == false && directer.isPlaying)
+        {
+            directer.Stop();
+        }
         templateMatcher = FindObjectOfType<TemplateMatching>();
         penMovementRecorder = FindObjectOfType<PenMovementRecorder>();
         //STARTPOINT CHECK
@@ -357,9 +356,12 @@ public class TraceFeedback : MonoBehaviour
         //Debug.Log("Pen: " + tipPenLocalPosition + " Start: " + lineVector.startPoint);
         if ((distanceStart < 0.05) && startPoint0Reached == false)
         {
-            directer.Stop();
+            if(directer.isPlaying)
+            {
+                directer.Stop();
+            }
             //straightUp.Play();
-            letterStroke();
+            LetterStroke();
             stroke = 0;
             startPoint0Reached = true;
             penMovementRecorder.StartRecording();
@@ -372,19 +374,24 @@ public class TraceFeedback : MonoBehaviour
         if(startPoint0Reached == true && endPoint0Reached == false)
         {
             
-            CheckTrace(accumulateTime, fixedTimer, startSound, startPoint0Reached);  
+            CheckTrace(startPoint0Reached);  
             if(distanceEnd < 0.05)
             {
                 Debug.Log("THIS WORKS");
-                directer.Stop();
-                accumulateTime = 0f;
+                if(directer.isPlaying)
+                {
+                    directer.Stop();
+                }
                 endPoint0Reached = true;
                 penMovementRecorder.StopRecording();
                 penMovementRecorder.ClearTexture();
                 if(letterArray.Length == 1)
                 {
                     isDone = true;
-                    directer.Stop();
+                    if(directer.isPlaying)
+                    {
+                        directer.Stop();
+                    }
                     StartCoroutine(PlayLetterCompletedAudioWithDelay(templateMatcher.corrections.Count));
                 }
                 if(letterArray.Length > 1)
@@ -404,6 +411,10 @@ public class TraceFeedback : MonoBehaviour
         Debug.Log(letterArray.Length);
         if(letterArray.Length > 1 && endPoint0Reached == true && endPoint1Reached == false)
         {
+            if(startPoint1Reached == false && directer.isPlaying)
+            {
+                directer.Stop();
+            }
             lineVector = letterArray[1];
             templateMatcher.GetTemplate();
             float distanceStart1 = Vector3.Distance(new Vector3(lineVector.startPoint.x + start.biasX, 0f, lineVector.startPoint.z + start.biasZ), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
@@ -412,10 +423,12 @@ public class TraceFeedback : MonoBehaviour
             //Debug.Log(lineVector.startPoint);
             if ((distanceStart1 < 0.05) && startPoint1Reached == false)
             {  
-                directer.Stop();
+                if(directer.isPlaying)
+                {
+                    directer.Stop();
+                }
                 Debug.Log(templateMatcher.corrections.Count);
                 StartCoroutine(PlayLetterStrokeAudioWithDelay(templateMatcher.corrections.Count));
-                accumulateTime = 0f;
                 startPoint1Reached = true;
                 
                 penMovementRecorder.StartRecording();
@@ -425,19 +438,24 @@ public class TraceFeedback : MonoBehaviour
             float distanceEnd1 = Vector3.Distance(new Vector3(lineVector.endPoint.x + start.biasX, 0f, lineVector.endPoint.z + start.biasZ), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
 
             if(startPoint1Reached == true && endPoint1Reached == false){
-                CheckTrace(accumulateTime, fixedTimer, startSound, startPoint1Reached);
+                CheckTrace(startPoint1Reached);
 
                 if(distanceEnd1 < 0.05)
                 { 
-                    directer.Stop();
-                    accumulateTime = 0f;
+                    if(directer.isPlaying)
+                    {
+                        directer.Stop();
+                    }
                     endPoint1Reached = true;
                     penMovementRecorder.StopRecording();
                     penMovementRecorder.ClearTexture();
                     if(letterArray.Length == 2)
                     {
                         isDone = true;
-                        directer.Stop();
+                        if(directer.isPlaying)
+                        {
+                            directer.Stop();
+                        }
                         StartCoroutine(PlayLetterCompletedAudioWithDelay(templateMatcher.corrections.Count));
                     }
                     if(letterArray.Length > 2)
@@ -452,15 +470,21 @@ public class TraceFeedback : MonoBehaviour
         }
         if(letterArray.Length > 2 && endPoint1Reached == true && endPoint2Reached == false)
         {
+            if(startPoint2Reached == false && directer.isPlaying)
+            {
+                directer.Stop();
+            }
             lineVector = letterArray[2];
             templateMatcher.GetTemplate();
             float distanceStart2 = Vector3.Distance(new Vector3(lineVector.startPoint.x + start.biasX, 0f, lineVector.startPoint.z + start.biasZ), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
             //GetToStart(startPoint2Reached);
             if ((distanceStart2 < 0.05) && startPoint2Reached == false)
             {
-                directer.Stop();
+                if(directer.isPlaying)
+                {
+                    directer.Stop();
+                }
                 StartCoroutine(PlayLetterStrokeAudioWithDelay(templateMatcher.corrections.Count));
-                accumulateTime = 0f;
                 startPoint2Reached = true;
                 penMovementRecorder.StartRecording();
                 stroke = 2;
@@ -470,18 +494,23 @@ public class TraceFeedback : MonoBehaviour
 
             if(startPoint2Reached == true && endPoint2Reached == false)
             {
-                CheckTrace(accumulateTime, fixedTimer, startSound, startPoint2Reached);
+                CheckTrace(startPoint2Reached);
                 if(distanceEnd2 < 0.05)
                 {
-                    directer.Stop();
-                    accumulateTime = 0f;
+                    if(directer.isPlaying)
+                    {
+                        directer.Stop();
+                    }
                     endPoint2Reached = true;
                     penMovementRecorder.StopRecording();
                     penMovementRecorder.ClearTexture();
                     if(letterArray.Length == 3)
                     {
                         isDone = true;
-                        directer.Stop();
+                        if(directer.isPlaying)
+                        {
+                            directer.Stop();
+                        }
                         StartCoroutine(PlayLetterCompletedAudioWithDelay(templateMatcher.corrections.Count));
                     }
                 }
@@ -489,36 +518,47 @@ public class TraceFeedback : MonoBehaviour
         } 
         if(letterArray.Length > 3 && endPoint2Reached == true && endPoint3Reached == false)
         {
+            if(startPoint3Reached == false && directer.isPlaying)
+            {
+                directer.Stop();
+            }
             lineVector = letterArray[3];
             float distanceStart3 = Vector3.Distance(new Vector3(lineVector.startPoint.x + start.biasX, 0f, lineVector.startPoint.z + start.biasZ), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
 
             //GetToStart(startPoint3Reached);
                 if ((distanceStart3 < 0.05) && startPoint3Reached == false)
-            {
-                directer.Stop();
-                StartCoroutine(PlayLetterStrokeAudioWithDelay(templateMatcher.corrections.Count));
-                accumulateTime = 0f;
-                startPoint3Reached = true;
-                penMovementRecorder.StartRecording();
-                stroke = 3;
-                
-            }
+                {
+                    if(directer.isPlaying)
+                    {
+                        directer.Stop();
+                    }
+                    StartCoroutine(PlayLetterStrokeAudioWithDelay(templateMatcher.corrections.Count));
+                    startPoint3Reached = true;
+                    penMovementRecorder.StartRecording();
+                    stroke = 3;
+                    
+                }
             float distanceEnd3 = Vector3.Distance(new Vector3(lineVector.endPoint.x + start.biasX, 0f, lineVector.endPoint.z + start.biasZ), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
 
             if(startPoint3Reached == true && endPoint3Reached == false)
             {   
-                CheckTrace(accumulateTime, fixedTimer, startSound, startPoint3Reached);
+                CheckTrace(startPoint3Reached);
                 if(distanceEnd3 < 0.05)
                 { 
-                    directer.Stop();
-                    accumulateTime = 0f;
+                    if(directer.isPlaying)
+                    {
+                        directer.Stop();
+                    }
                     endPoint3Reached = true;
                     penMovementRecorder.StopRecording();
                     penMovementRecorder.ClearTexture();
                     if(letterArray.Length == 4)
                     {
                         isDone = true;
-                        directer.Stop();
+                        if(directer.isPlaying)
+                        {
+                            directer.Stop();
+                        }
                         StartCoroutine(PlayLetterCompletedAudioWithDelay(templateMatcher.corrections.Count));
                     }
                 }
@@ -527,6 +567,10 @@ public class TraceFeedback : MonoBehaviour
         }
         if(letterArray.Length > 4 && endPoint3Reached == true && endPoint4Reached == false)
         {
+            if(startPoint4Reached == false && directer.isPlaying)
+            {
+                directer.Stop();
+            }
             lineVector = letterArray[4];
             templateMatcher.GetTemplate();
             float distanceStart4 = Vector3.Distance(new Vector3(lineVector.startPoint.x + start.biasX, 0f, lineVector.startPoint.z + start.biasZ), new Vector3(tipPenLocalPosition.x, 0f, tipPenLocalPosition.z));
@@ -534,9 +578,11 @@ public class TraceFeedback : MonoBehaviour
             //GetToStart(startPoint4Reached);
             if ((distanceStart4 < 0.05) && startPoint4Reached == false)
             {
-                directer.Stop();
+                if(directer.isPlaying)
+                {
+                    directer.Stop();
+                }
                 StartCoroutine(PlayLetterStrokeAudioWithDelay(templateMatcher.corrections.Count));
-                accumulateTime = 0f;
                 startPoint4Reached = true;
                 penMovementRecorder.StartRecording();
                 stroke = 4;
@@ -546,15 +592,17 @@ public class TraceFeedback : MonoBehaviour
 
             if(startPoint4Reached == true && endPoint4Reached == false)
             {
-                CheckTrace(accumulateTime, fixedTimer, startSound, startPoint4Reached);
+                CheckTrace(startPoint4Reached);
                 if(distanceEnd4 < 0.05)
                 { 
-                    accumulateTime = 0f;
                     endPoint4Reached = true;
                     penMovementRecorder.StopRecording();
                     penMovementRecorder.ClearTexture();
                     isDone = true;
-                    directer.Stop();
+                    if(directer.isPlaying)
+                    {
+                        directer.Stop();
+                    }
                     StartCoroutine(PlayLetterCompletedAudioWithDelay(templateMatcher.corrections.Count));
                 
                 }
@@ -565,7 +613,7 @@ public class TraceFeedback : MonoBehaviour
         return stroke;
     }
         
-private void CheckTrace(float accumulateTime, float fixedTimer, int startSound, bool startPointReached)
+private void CheckTrace(bool startPointReached)
 {
     tipPenLocalPosition = transform.InverseTransformPoint(tipPen.transform.position);
     if (startPointReached)
@@ -586,6 +634,8 @@ private void CheckTrace(float accumulateTime, float fixedTimer, int startSound, 
             furtherPoint.z += start.biasZ;
             furtherPoint.x += start.biasX;
             furtherPoint.y = 0.04f;
+            ResetDistance(furtherPoint,tipPenLocalPosition);
+
         }
         if (lineVector.isCurved)
         {
@@ -601,11 +651,12 @@ private void CheckTrace(float accumulateTime, float fixedTimer, int startSound, 
             furtherPoint.z += start.biasZ;
             furtherPoint.x += start.biasX;
             furtherPoint.y = 0.04f;
+            ResetDistance(furtherPoint,tipPenLocalPosition);
+
         }
 
         float changeX = Mathf.Abs(furtherPoint.x - tipPenLocalPosition.x);
         float changeZ = Mathf.Abs(furtherPoint.z - tipPenLocalPosition.z);
-        accumulateTime = (float)System.Math.Round(accumulateTime, 3);
         StartCoroutine(PlaySonificationWithDelay(templateMatcher.corrections.Count, furtherPoint.x, furtherPoint.z, tipPenLocalPosition, lineVector.startPoint, lineVector.endPoint));
 
         //Sonification1(furtherPoint.x, furtherPoint.z, tipPenLocalPosition, lineVector.startPoint, lineVector.endPoint);
@@ -1222,7 +1273,7 @@ private void CheckTrace(float accumulateTime, float fixedTimer, int startSound, 
 
     }*/
 
-    public void letterStroke()
+    public void LetterStroke()
     {
         //Lowercase A
         if(letterArray == alphabet[1] && lineVector.Equals(letterArray[0]))
@@ -1583,6 +1634,17 @@ private void CheckTrace(float accumulateTime, float fixedTimer, int startSound, 
         }
 
     }
+
+    public void ResetDistance(Vector3 furtherPoint, Vector3 tipPen)
+    {
+
+        bool targetTracked = IsTrackedOrExtendedTracked(targetObserver.mPreviousTargetStatus);
+        float distance = Vector3.Distance(new Vector3(furtherPoint.x, 0f, furtherPoint.z), new Vector3(tipPen.x, 0f, tipPen.z));
+        if(distance > 0.35f && targetTracked)
+        {
+            currentInt.RefreshCurrentLetter();
+        }
+    }
     public override bool Equals(object obj)
     {
         if (obj == null || GetType() != obj.GetType())
@@ -1599,7 +1661,7 @@ private void CheckTrace(float accumulateTime, float fixedTimer, int startSound, 
         yield return new WaitForSeconds(corrections * 3); // Delay before playing the audio
 
   
-        letterStroke();
+        LetterStroke();
         
         
     }   
@@ -1621,7 +1683,7 @@ private void CheckTrace(float accumulateTime, float fixedTimer, int startSound, 
 
     IEnumerator PlaySonificationWithDelay(int corrections, float furtherPointX, float furtherPointZ, Vector3 tipPenLocalPosition, Vector3 start, Vector3 end)
     {
-        yield return new WaitForSeconds(corrections * 3 + 1); // Delay before playing the audio
+        yield return new WaitForSeconds(corrections * 2); // Delay before playing the audio
         if(!directer.isPlaying)
         {
             if(isDone == false)
@@ -1635,7 +1697,10 @@ private void CheckTrace(float accumulateTime, float fixedTimer, int startSound, 
 
     }   
 
-    
+    bool IsTrackedOrExtendedTracked(TargetStatus targetStatus)
+    {
+        return targetStatus.Status == Status.TRACKED || targetStatus.Status == Status.EXTENDED_TRACKED;
+    }
     
 
 

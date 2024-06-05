@@ -27,6 +27,10 @@ public class letter_rotator : MonoBehaviour
             parent.transform.GetChild(index).gameObject.SetActive(false);
         }
         traceFeedback.directer.Stop();
+        if(traceFeedback.directer.isPlaying)
+        {
+            traceFeedback.directer.Stop();
+        }
 
     }
 
@@ -41,6 +45,10 @@ public class letter_rotator : MonoBehaviour
         //parent.transform.GetChild(i).gameObject.SetActive(true);
         traceFeedback.isDone = false;
         traceFeedback.directer.Stop();
+        if(traceFeedback.directer.isPlaying)
+        {
+            traceFeedback.directer.Stop();
+        }
     }
 
     // Sets the previous letter active and the current letter inactive
@@ -54,12 +62,58 @@ public class letter_rotator : MonoBehaviour
         //parent.transform.GetChild(i).gameObject.SetActive(true);
         traceFeedback.isDone = false;
         traceFeedback.directer.Stop();
+        if(traceFeedback.directer.isPlaying)
+        {
+            traceFeedback.directer.Stop();
+        }
+    }
+    public void SetLetters()
+    {
+        traceFeedback.directer.Stop();
+
+        start.biasFound = false;
+        i = 1;
+        HideLetters();
+        //parent.transform.GetChild(i).gameObject.SetActive(true);
+        traceFeedback.isDone = false;
+        traceFeedback.directer.Stop();
+        if(traceFeedback.directer.isPlaying)
+        {
+            traceFeedback.directer.Stop();
+        }
+    }
+    public void SetStrokes()
+    {
+        traceFeedback.directer.Stop();
+
+        start.biasFound = false;
+        i = 53;
+        HideLetters();
+        //parent.transform.GetChild(i).gameObject.SetActive(true);
+        traceFeedback.isDone = false;
+        traceFeedback.directer.Stop();
+        if(traceFeedback.directer.isPlaying)
+        {
+            traceFeedback.directer.Stop();
+        }
     }
 
      public void RefreshCurrentLetter()
     {
         traceFeedback.directer.Stop();
+        start.biasFound = false;
+        i = (i + parent.transform.childCount) % parent.transform.childCount;
         HideLetters(); 
+        traceFeedback.startPoint0Reached = false;
+        traceFeedback.startPoint1Reached = false;
+        traceFeedback.startPoint2Reached = false;
+        traceFeedback.startPoint3Reached = false;
+        traceFeedback.startPoint4Reached = false;
+        traceFeedback.endPoint0Reached = false;
+        traceFeedback.endPoint1Reached = false;
+        traceFeedback.endPoint2Reached = false;
+        traceFeedback.endPoint3Reached = false;
+        traceFeedback.endPoint4Reached = false;
         traceFeedback.letterArray = traceFeedback.alphabet[i];
         switch (i)
             {
@@ -188,5 +242,9 @@ public class letter_rotator : MonoBehaviour
             }
         traceFeedback.isDone = false;
         traceFeedback.directer.Stop();
+        if(traceFeedback.directer.isPlaying)
+        {
+            traceFeedback.directer.Stop();
+        }
     }
 }
